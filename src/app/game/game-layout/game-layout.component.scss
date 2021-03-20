@@ -1,0 +1,13 @@
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+mat-grid-tile {
+    background: lightblue;
+}
+
+mat-grid-list {
+    width: 80%;
+}
