@@ -4,7 +4,7 @@ import { InputPapers, Inspector } from 'papersplease';
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.sass'],
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
     title = 'PapersPleaseUI';
@@ -20,7 +20,7 @@ export class AppComponent {
                 DOB: 1933.11.28
                 SEX: M
                 ISS: East Grestin
-                EXP: 2014.11.15`,
+                EXP: 2014.11.15`
         };
         console.log('result', inspector.inspect(entrant));
     }
