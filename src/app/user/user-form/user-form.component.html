@@ -1,4 +1,6 @@
-<label>
-    Name:
-    <input type="text" [formControl]="name" />
-</label>
+<form [formGroup]="userForm" class="user-form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Username" required (keydown.enter)="setUsername($event)" formControlName="name" id="name" />
+    </mat-form-field>
+</form>

@@ -1,2 +1,2 @@
-<p>dashboard works!</p>
-<app-user-list></app-user-list>
+<app-user-list (selectUsername)="onUsernameSelected($event)"></app-user-list>
+<app-user-form (createUsername)="onUsernameCreated($event)"></app-user-form>

@@ -15,3 +15,14 @@
     top: 0;
     z-index: 1;
 }
+
+.left-right-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.left-wrapper {
+    display: flex;
+    align-items: center;
+}
