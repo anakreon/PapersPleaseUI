@@ -1,0 +1,73 @@
+:host {
+    width: 100%;
+}
+
+.wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: space-around;
+}
+
+.speakers {
+    cursor: pointer;
+}
+
+.store_mall_directory {
+    transform: scale(3);
+}
+
+.multiple_stop {
+    transform: scale(1.5);
+}
+
+.vertical-divider {
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    height: 90%;
+    width: 1px;
+    border-left: 2px darkgrey dashed;
+}
+
+.people {
+    align-self: flex-start;
+}
+
+.person {
+    position: absolute;
+    display: inline-block;
+    height: 62px;
+    width: 30px;
+    background-image:url("/assets/walking2.png"); 
+    background-position: 0;
+    background-size: auto 62px;
+}
+
+.peopleA {
+    display: inline-block;
+    height: 62px;
+    width: 30px;
+    background-image:url("/assets/walking2.png"); 
+    background-size: auto 62px;
+    background-position: 130px;
+}
+
+.peopleB {
+    display: inline-block;
+    height: 62px;
+    width: 30px;
+    background-image:url("/assets/walking2.png"); 
+    background-size: auto 62px;
+    background-position: 160px;
+}
+
+.reverse {
+    transform: rotateY(180deg);
+}
+
+.speaker {
+    font-size: 50px;
+}

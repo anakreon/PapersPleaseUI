@@ -1,7 +1,13 @@
 <section>
     <mat-grid-list cols="2" rowHeight="300px">
-        <mat-grid-tile colspan="2">1 {{getScore() | async}}</mat-grid-tile>
-        <mat-grid-tile>2</mat-grid-tile>
-        <mat-grid-tile>3</mat-grid-tile>
+        <mat-grid-tile colspan="2">
+            <app-queue></app-queue>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <app-documents></app-documents>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <app-details></app-details>
+        </mat-grid-tile>
     </mat-grid-list>
 </section>
