@@ -4,16 +4,16 @@ section {
     align-items: center;
 }
 
-mat-grid-tile {
-    border: 1px solid lightblue;
-    width: 100%;
-}
-
 ::ng-deep mat-grid-tile.mat-grid-tile .mat-figure {
     align-items: initial;
     justify-content: initial;
 }
 
 mat-grid-list {
-    width: 80%;
+    width: 60%;
+}
+
+mat-grid-tile {
+    border: 1px solid lightblue;
+    width: 100%;
 }
