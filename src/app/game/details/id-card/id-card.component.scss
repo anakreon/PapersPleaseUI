@@ -1,0 +1,56 @@
+.id-card {
+    height: 200px;
+    width: 300px;
+    background-color: #ffe6e6;
+    border: black 1px solid;
+    border-radius: 3px;
+    box-shadow: 2px 2px 0px #333333;
+    
+    .header {
+        height: 20px;
+        text-align: center;
+        font-size: 13pt;
+        font-family: monaco;
+        background-color: lightgray;
+    }
+
+    .content {
+        height: calc(100% - 20px);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    
+        .left {
+            width: 60%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+    
+            svg {
+                border: 1px gray solid;
+            }
+        }
+        .right {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                li {
+                    margin-bottom: 2px;
+                }
+            }
+            .title {
+                font-weight: bold;
+            }
+            .content {
+                margin-top: -5px;
+            }
+        }
+    }
+}

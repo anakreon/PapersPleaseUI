@@ -1,0 +1,45 @@
+.diplomatic-authorization {
+    box-sizing: border-box;
+    min-width: 200px;
+    width: 200px;
+    height: 300px;
+    margin: 15px 15px 15px 0;
+    padding-right: 5px;
+    background-color: whitesmoke;
+    color: #6B9362;
+    display: flex;
+
+    .border-wrapper {
+        height: 100%;
+        margin-left: 5px;
+        padding-left: 5px;
+        border-left: 1px #6B9362 solid;
+    }
+
+    .header {
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 20px;
+        font-family: arial;
+        transform: scaleY(150%);
+        line-height: 20px;
+    }
+
+    .content {
+        font-size: 12px;
+        line-height: 15px;
+        .main-text {
+            color: black;
+            font-style: normal;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        p {
+            padding: 5px;
+            margin-top: 10px;
+            color: black;
+            border: dotted 2px #6B9362;
+        }
+    }
+}

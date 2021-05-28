@@ -1,0 +1,75 @@
+.grant-of-asylum {
+    min-width: 250px;
+    width: 250px;
+    height: 250px;
+    background-color: #ffe6e6;
+
+    fieldset {
+        border: 2px solid gray;
+        height: 230px;
+        width: 220px;
+        font-style: italic;
+    }
+
+    p {
+        margin: 12px 0;
+        font-size: 13px;
+        line-height: 14px;
+    }
+
+    .header {
+        font-size: 25px;
+        font-style: normal;
+        text-align: center;
+        font-family: arial;
+        transform: scaleY(150%);
+    }
+
+    .content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .left {
+            width: 30%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+    
+            svg {
+                border: 1px gray solid;
+            }
+        }
+        .right {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                li {
+                    margin-bottom: 2px;
+                }
+                span {
+                    display: inline;
+                    margin-left: 5px;
+                }
+            }
+            .title {
+                font-weight: bold;
+            }
+            .content {
+                margin-top: -5px;
+            }
+        }
+    }
+
+    .seal {
+        width: 50px;
+        transform: translateY(-54px) translateX(-2px) rotate(3deg);
+    }
+}

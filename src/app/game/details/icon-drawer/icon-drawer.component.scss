@@ -1,0 +1,118 @@
+.icon-drawer {
+    position: absolute;
+    right: -440px;
+    top: -75px;
+    display: flex;
+    &.open {
+        right: -75px;
+    }
+    .drawer {
+        position: absolute;
+        bottom: 70px;
+        //left: -70px;
+        left: -90px;
+        width: 420px;
+        height: 160px;
+        background-color: #654321;
+
+        .drawer-bar {
+            cursor: pointer;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            height: 160px;
+            width: 50px;
+            background-color: #371d10;
+            &::before {
+                height: 100%;
+                transform: scaleX(50%);
+                color: lightyellow;
+                font-size: 40px;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    .stamp-icon {
+        cursor: pointer;
+        transform: scale(60%);
+        position: relative;
+        width: 300px;
+        height: 300px;
+        top: 0px;
+        &:not(:first-of-type) {
+            margin-left: -100px;
+        }
+        &:hover {
+            color: burlywood
+        }
+        &.stamping {
+            top: 100px;
+        }
+        transition: top 0.5s;
+    }
+
+    .icon-label {
+        position: absolute;
+        bottom: 70px;
+        left: 50px;
+        width: 200px;
+        height: 45px;
+        border-top-right-radius: 23px;
+        border-top-left-radius: 23px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        text-shadow: black 0px 2px 2px;
+        &.icon-denied {
+            background-color: #cc3300;
+        }
+
+        &.icon-approved {
+            background-color: #669900;
+        }
+    }
+}
+
+.icon-drawer {
+    &.open .drawer-bar::before {
+        content: '→';
+    }
+    .drawer-bar::before {
+        content: '←';
+    }
+}
+
+.icon-drawer.open {
+    animation-duration: 1s;
+    animation-name: slidein;
+}
+
+@keyframes slidein {
+    from {
+        right: -440px;
+    }
+
+    to {
+        right: -70px;
+    }
+}
+
+.icon-drawer.touched:not(.open) {
+    animation-duration: 1s;
+    animation-name: slideout;
+}
+
+@keyframes slideout {
+    from {
+        right: -70px; 
+    }
+
+    to {
+        right: -440px;
+    }
+}

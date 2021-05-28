@@ -17,11 +17,26 @@
     align-items: center;
     align-self: center;
     height: 50%;
-    background-color: #8B4513;
+    background-color: #8b4513;
     width: 98%;
     justify-content: space-evenly;
 }
 
 .entrant {
     width: 42%;
+}
+
+img {
+    animation-duration: 1s;
+    animation-name: slidein;
+}
+
+@keyframes slidein {
+    from {
+        margin-bottom: 40%;
+    }
+
+    to {
+        margin-bottom: 0%;
+    }
 }

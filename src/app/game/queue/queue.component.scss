@@ -37,6 +37,7 @@
 }
 
 .person {
+    left: 420px;
     position: absolute;
     display: inline-block;
     height: 62px;
@@ -44,6 +45,16 @@
     background-image:url("/assets/walking2.png"); 
     background-position: 0;
     background-size: auto 62px;
+}
+
+.last {
+    position: absolute;
+    display: inline-block;
+    height: 62px;
+    width: 30px;
+    background-image:url("/assets/walking2.png"); 
+    background-size: auto 62px;
+    background-position: 160px;
 }
 
 .peopleA {

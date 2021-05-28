@@ -1,0 +1,44 @@
+.access-permit {
+    min-width: 150px;
+    width: 150px;
+    height: 300px;
+    background-color: gainsboro;
+
+    fieldset {
+        border: 5px groove;
+        height: 275px;
+        font-style: italic;
+    }
+
+    .header {
+        font-size: 25px;
+        font-style: normal;
+        font-weight: bold;
+        text-align: center;
+        font-family: monaco;
+    }
+    
+    .content {
+        margin-top: 7px;
+        font-style: normal;
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            li {
+                margin-bottom: 2px;
+            }
+        }
+        .title {
+            font-weight: bold;
+        }
+        .content {
+            margin-top: -5px;
+        }
+    }
+    
+    .seal {
+        width: 60px;
+        transform: rotate(-20deg) translateY(-20px) translateX(80px);
+    }
+}

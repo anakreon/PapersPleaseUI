@@ -1,0 +1,64 @@
+.certificate-of-vaccination{
+    position: relative;
+    min-width: 200px;
+    width: 200px;
+    height: 250px;
+    background-color: #e6e600;
+
+    fieldset {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 2px;
+        border: 2px solid gray;
+        height: 225px;
+        width: 170px;
+        font-style: italic;
+    }
+    
+    .header {
+        margin-top: 15px;
+        font-size: 20px;
+        font-family: arial;
+        text-align: center;
+        transform: scaleY(150%);
+        line-height: 10px;
+        
+        .small {
+            font-size: 15px;
+        }
+    }
+
+    .content {
+        .main-text {
+            font-style: normal;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            tr {
+                line-height: 12px;
+            }
+            th {
+                color: purple;
+                font-style: normal;
+                font-weight: 401;
+                padding-bottom: 5px;
+            }
+            td {
+                border: 2px dotted purple;
+            }
+        }
+    }
+
+    .seal {
+        position: absolute;
+        bottom: 10px;
+        right: 0px;
+        width: 80px;
+        transform: rotate(-20deg);
+    }
+}

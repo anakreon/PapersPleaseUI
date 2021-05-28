@@ -1,0 +1,14 @@
+:host {
+    width: 100%;
+    border-left: 10px #4d3f39 solid;
+}
+
+.table {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    height: 100%;
+    width: 100%;
+    background-color: #75584a;
+    justify-content: space-evenly;
+}
