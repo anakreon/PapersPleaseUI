@@ -89,10 +89,10 @@
 
 .icon-drawer.open {
     animation-duration: 1s;
-    animation-name: slidein;
+    animation-name: slideindrawer;
 }
 
-@keyframes slidein {
+@keyframes slideindrawer {
     from {
         right: -440px;
     }
@@ -104,10 +104,10 @@
 
 .icon-drawer.touched:not(.open) {
     animation-duration: 1s;
-    animation-name: slideout;
+    animation-name: slideoutdrawer;
 }
 
-@keyframes slideout {
+@keyframes slideoutdrawer {
     from {
         right: -70px; 
     }

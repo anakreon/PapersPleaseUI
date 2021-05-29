@@ -28,10 +28,11 @@
 
 img {
     animation-duration: 1s;
-    animation-name: slidein;
+    animation-name: slideinpaper;
+    cursor: pointer;
 }
 
-@keyframes slidein {
+@keyframes slideinpaper {
     from {
         margin-bottom: 40%;
     }

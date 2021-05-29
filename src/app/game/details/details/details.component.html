@@ -1,10 +1,54 @@
-<div class="table">
+<div #dropzone class="table">
     <app-icon-drawer></app-icon-drawer>
-    <!--<app-passport></app-passport>
-    <app-id-card></app-id-card>
-    <app-work-pass></app-work-pass>
-    <app-access-permit></app-access-permit>
-    <app-grant-of-asylum></app-grant-of-asylum>
-    <app-certificate-of-vaccination></app-certificate-of-vaccination>
-    <app-diplomatic-authorization></app-diplomatic-authorization>--><!---->
+    <div class="papers">
+        <app-passport
+            *ngIf="isVisible('passport')"
+            [style.top.px]="getTop('passport')"
+            [style.left.px]="getLeft('passport')"
+            (dragstart)="onDragStart($event, 'passport')"
+            draggable="true" 
+        ></app-passport>
+        <app-id-card
+            *ngIf="isVisible('idcard')"
+            [style.top.px]="getTop('idcard')"
+            [style.left.px]="getLeft('idcard')"
+            (dragstart)="onDragStart($event, 'idcard')"
+            draggable="true" 
+        ></app-id-card>
+        <app-work-pass
+            *ngIf="isVisible('workpass')"
+            [style.top.px]="getTop('workpass')"
+            [style.left.px]="getLeft('workpass')"
+            (dragstart)="onDragStart($event, 'workpass')"
+            draggable="true" 
+        ></app-work-pass>
+        <app-access-permit
+            *ngIf="isVisible('permit')"
+            [style.top.px]="getTop('permit')"
+            [style.left.px]="getLeft('permit')"
+            (dragstart)="onDragStart($event, 'permit')"
+            draggable="true" 
+        ></app-access-permit>
+        <app-grant-of-asylum
+            *ngIf="isVisible('grant')"
+            [style.top.px]="getTop('grant')"
+            [style.left.px]="getLeft('grant')"
+            (dragstart)="onDragStart($event, 'grant')"
+            draggable="true" 
+        ></app-grant-of-asylum>
+        <app-certificate-of-vaccination
+            *ngIf="isVisible('certificate')"
+            [style.top.px]="getTop('certificate')"
+            [style.left.px]="getLeft('certificate')"
+            (dragstart)="onDragStart($event, 'certificate')"
+            draggable="true" 
+        ></app-certificate-of-vaccination>
+        <app-diplomatic-authorization
+            *ngIf="isVisible('authorization')"
+            [style.top.px]="getTop('authorization')"
+            [style.left.px]="getLeft('authorization')"
+            (dragstart)="onDragStart($event, 'authorization')"
+            draggable="true" 
+        ></app-diplomatic-authorization>
+    </div>
 </div>
