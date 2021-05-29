@@ -1,5 +1,4 @@
 <div #dropzone class="table">
-    <app-icon-drawer></app-icon-drawer>
     <div class="papers">
         <app-passport
             *ngIf="isVisible('passport')"
@@ -7,7 +6,8 @@
             [style.left.px]="getLeft('passport')"
             (dragstart)="onDragStart($event, 'passport')"
             (dragend)="onDragEnd($event)"
-            draggable="true" 
+            draggable="true"
+            [status]="getPassportStatus()"
         ></app-passport>
         <app-id-card
             *ngIf="isVisible('idcard')"
@@ -52,4 +52,5 @@
             draggable="true" 
         ></app-diplomatic-authorization>
     </div>
+    <app-icon-drawer (onApprove)="approve()" (onDeny)="deny()"></app-icon-drawer>
 </div>

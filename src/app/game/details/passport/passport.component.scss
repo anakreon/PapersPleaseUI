@@ -32,6 +32,14 @@
                 content: 'ENTRY VISA';
                 color: darkgoldenrod;
             }
+            .denied {
+                width: 110px;
+            }
+            .approved {
+                width: 130px;
+                transform: rotate(45deg);
+                margin-top: -20px;
+            }
         }
     }
 

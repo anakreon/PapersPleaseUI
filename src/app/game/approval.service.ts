@@ -13,15 +13,15 @@ export class ApprovalService {
             this.inspector.receiveBulletin(bulletin);
         });
     }
-    public shouldAllow(entrant): boolean {
+    public shouldAllow(entrant: InputPapers): boolean {
         const result = this.inspector.inspect(entrant);
         return result.includes('Glory to Arstotzka') || result.includes('Cause no trouble');
     }
-    public shouldDeny(entrant): boolean {
+    public shouldDeny(entrant: InputPapers): boolean {
         const result = this.inspector.inspect(entrant);
         return result.includes('Entry denied');
     }
-    public shouldDetain(entrant): boolean {
+    public shouldDetain(entrant: InputPapers): boolean {
         const result = this.inspector.inspect(entrant);
         return result.includes('Detainment');
     }

@@ -1,7 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { InputPapers } from 'papersplease';
+import { InputPapers, Papers } from 'papersplease';
 import { EntrantService } from '../entrant.service';
 import { DRAG_CHANNEL } from '../enums';
+import { GameService } from '../game.service';
+import { InterpreterService } from '../interpreter.service';
 
 @Component({
     selector: 'app-documents',
@@ -17,12 +19,38 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     private paperDragListeners = {};
     paper = 0;
 
-    constructor(private entrantService: EntrantService) {}
+    constructor(private entrantService: EntrantService, private gameService: GameService, private interpreterService: InterpreterService) {}
 
     ngOnInit(): void {
         this.entrantService.getEntrantWaiting().subscribe((entrant: InputPapers) => {
             this.isEntrantVisible = true;
+            const papers = this.interpreterService.interpret(entrant);
+            this.putPapersOnTable(papers);
         });
+    }
+
+    private putPapersOnTable(papers: Papers): void {
+        if (papers.getAccessPermit()) {
+            this.putPaperOnTable('permit');
+        }
+        if (papers.getCertificateOfVaccination()) {
+            this.putPaperOnTable('certificate');
+        }
+        if (papers.getDiplomaticAuthorization()) {
+            this.putPaperOnTable('authorization');
+        }
+        if (papers.getGrantOfAsylum()) {
+            this.putPaperOnTable('grant');
+        }
+        if (papers.getIdCard()) {
+            this.putPaperOnTable('idcard');
+        }
+        if (papers.getPassport()) {
+            this.putPaperOnTable('passport');
+        }
+        if (papers.getWorkPass()) {
+            this.putPaperOnTable('workpass');
+        }
     }
 
     ngAfterViewInit(): void {
@@ -36,7 +64,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
         if (channel === DRAG_CHANNEL.MOVE_PAPER) {
             const paper = {
                 id: target,
-                ...papers[target]
+                ...papersImg[target]
             };
             this.pushToTheMiddle(paper);
         }
@@ -53,14 +81,23 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     }
 
     public onclick(): void {
+        this.gameService.deny('asdf');
         //this.isEntrantVisible = !this.isEntrantVisible;
-        const keys = Object.keys(papers);
+        /*const keys = Object.keys(papers);
         const paper = {
             id: keys[this.paper],
             ...papers[keys[this.paper]]
         };
         this.pushToTheMiddle(paper);
-        this.paper++;
+        this.paper++;*/
+    }
+
+    private putPaperOnTable(paper: string): void {
+        const paperImg = {
+            id: paper,
+            ...papersImg[paper]
+        };
+        this.pushToTheMiddle(paperImg);
     }
 
     private pushToTheMiddle(paper): void {
@@ -90,7 +127,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     private documentDragstartHandler(event): void {
         console.log('dragging', event.target.id);
         event.dataTransfer.setData('text/plain', JSON.stringify({ channel: DRAG_CHANNEL.INSPECT_PAPER, target: event.target.id }));
-        //event.dataTransfer.dropEffect = 'move';
     }
 
     private documentDragendHandler(event): void {
@@ -104,7 +140,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     }
 }
 
-const papers = {
+const papersImg = {
     passport: {
         src: '/assets/passport.png',
         width: '90px'

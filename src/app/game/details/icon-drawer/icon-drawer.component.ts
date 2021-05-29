@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'app-icon-drawer',
@@ -6,6 +6,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
     styleUrls: ['./icon-drawer.component.scss']
 })
 export class IconDrawerComponent implements OnInit {
+    @Output() onApprove: EventEmitter<void> = new EventEmitter();
+    @Output() onDeny: EventEmitter<void> = new EventEmitter();
+
     public isOpen = false;
     public touched = false;
     public approveStamping = false;
@@ -24,6 +27,7 @@ export class IconDrawerComponent implements OnInit {
         this.approveStamping = true;
         setTimeout(() => {
             this.approveStamping = false;
+            this.onApprove.emit();
         }, 1000);
         console.log('approved');
     }
@@ -31,6 +35,7 @@ export class IconDrawerComponent implements OnInit {
         this.denyStamping = true;
         setTimeout(() => {
             this.denyStamping = false;
+            this.onDeny.emit();
         }, 1000);
         console.log('denied');
     }

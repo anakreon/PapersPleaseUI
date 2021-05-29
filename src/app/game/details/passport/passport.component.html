@@ -1,6 +1,9 @@
 <div class="passport">
     <div class="top">
-        <div class="visa"></div>
+        <div class="visa">
+            <img *ngIf="isApproved()" class="approved" src="assets/approved.png" />
+            <img *ngIf="isDenied()" class="denied" src="assets/denied.png" />
+        </div>
     </div>
     <hr />
     <div class="bottom">
