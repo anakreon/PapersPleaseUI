@@ -1,0 +1,5 @@
+export enum DRAG_CHANNEL {
+    INSPECT_PAPER,
+    RETURN_PAPER,
+    MOVE_PAPER
+}

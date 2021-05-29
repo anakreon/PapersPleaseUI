@@ -1,16 +1,18 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { InputPapers } from 'papersplease';
 import { EntrantService } from '../entrant.service';
+import { DRAG_CHANNEL } from '../enums';
 
 @Component({
     selector: 'app-documents',
     templateUrl: './documents.component.html',
     styleUrls: ['./documents.component.scss']
 })
-export class DocumentsComponent implements OnInit {
-    @ViewChild('table') table: ElementRef;
+export class DocumentsComponent implements OnInit, AfterViewInit {
+    @ViewChild('dropzone') dropzone: ElementRef;
 
     public isEntrantVisible = false;
+    public touched = false;
     public entrantPapers = [];
     private paperDragListeners = {};
     paper = 0;
@@ -21,6 +23,33 @@ export class DocumentsComponent implements OnInit {
         this.entrantService.getEntrantWaiting().subscribe((entrant: InputPapers) => {
             this.isEntrantVisible = true;
         });
+    }
+
+    ngAfterViewInit(): void {
+        this.dropzone.nativeElement.addEventListener('drop', this.dropHandler.bind(this));
+        this.dropzone.nativeElement.addEventListener('dragover', this.dragoverHandler.bind(this));
+    }
+
+    private dropHandler(event): void {
+        event.preventDefault();
+        const { target, channel } = JSON.parse(event.dataTransfer.getData('text/plain'));
+        if (channel === DRAG_CHANNEL.MOVE_PAPER) {
+            const paper = {
+                id: target,
+                ...papers[target]
+            };
+            this.pushToTheMiddle(paper);
+        }
+    }
+
+    private dragoverHandler(event): void {
+        console.log(event.dataTransfer.getData('text/plain'));
+        const data = event.dataTransfer.getData('text/plain');
+        const { channel } = JSON.parse(data);
+        if (channel === DRAG_CHANNEL.MOVE_PAPER) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'link';
+        }
     }
 
     public onclick(): void {
@@ -45,6 +74,7 @@ export class DocumentsComponent implements OnInit {
     }
 
     public onImgMouseDown(event): void {
+        this.touched = true;
         event.stopPropagation();
         const id = event.target.id;
         if (!this.paperDragListeners[id]) {
@@ -58,16 +88,18 @@ export class DocumentsComponent implements OnInit {
     }
 
     private documentDragstartHandler(event): void {
-        console.log('dragging');
-        event.dataTransfer.setData('text/plain', event.target.id);
-        event.dataTransfer.dropEffect = 'move';
+        console.log('dragging', event.target.id);
+        event.dataTransfer.setData('text/plain', JSON.stringify({ channel: DRAG_CHANNEL.INSPECT_PAPER, target: event.target.id }));
+        //event.dataTransfer.dropEffect = 'move';
     }
 
     private documentDragendHandler(event): void {
         console.log('dragend');
-        const data = event.dataTransfer.getData('text/plain');
-        if (event.dataTransfer.dropEffect !== 'none') {
-            this.removePaperByKey(data);
+        const { channel, target } = JSON.parse(event.dataTransfer.getData('text/plain'));
+        if (channel === DRAG_CHANNEL.INSPECT_PAPER && event.dataTransfer.dropEffect !== 'none') {
+            console.log(channel, event.dataTransfer.dropEffect);
+            this.removePaperByKey(target);
+            this.paperDragListeners[target] = false;
         }
     }
 }

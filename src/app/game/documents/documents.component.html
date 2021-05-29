@@ -1,6 +1,14 @@
 <div class="window">
     <img class="entrant" [hidden]="!isEntrantVisible" src="/assets/immigrant.png" />
 </div>
-<div class="table" (click)="onclick()" #table>
-    <img (mousedown)="onImgMouseDown($event)" *ngFor="let paper of entrantPapers" [id]="paper.id" draggable="true" [style.width]="paper.width" [src]="paper.src" />
+<div class="table" (click)="onclick()" #dropzone>
+    <img
+        (mousedown)="onImgMouseDown($event)"
+        *ngFor="let paper of entrantPapers"
+        [id]="paper.id"
+        draggable="true"
+        [style.width]="paper.width"
+        [src]="paper.src"
+        [class.touched]="touched"
+    />
 </div>

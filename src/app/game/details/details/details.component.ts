@@ -8,6 +8,7 @@ import {
     ViewChild,
     ViewChildren
 } from '@angular/core';
+import { DRAG_CHANNEL } from '../../enums';
 
 interface Position {
     top: number;
@@ -71,18 +72,18 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
     private dropHandler(event): void {
         event.preventDefault();
-        const data = event.dataTransfer.getData('text/plain');
-        if (this.dragStartCoords) {
+        const { target, channel } =  JSON.parse(event.dataTransfer.getData('text/plain'));
+        if (channel === DRAG_CHANNEL.MOVE_PAPER) {
             const newPosition: Position = {
-                left: this.coordinates[data].left + event.clientX - this.dragStartCoords.left,
-                top: this.coordinates[data].top + event.clientY - this.dragStartCoords.top
+                left: this.coordinates[target].left + event.clientX - this.dragStartCoords.left,
+                top: this.coordinates[target].top + event.clientY - this.dragStartCoords.top
             };
-            this.coordinates[data] = this.getElementPositionWithinBounds(event, data, newPosition);
+            this.coordinates[target] = this.getElementPositionWithinBounds(event, target, newPosition);
             this.dragStartCoords = null;
-        } else {
-            console.log('droppping', data);
+        } else if (channel === DRAG_CHANNEL.INSPECT_PAPER) {
+            console.log('droppping', target);
             const mousePosition = this.getRelativeMousePosition(event);
-            this.coordinates[data] = this.getElementPositionWithinBounds(event, data, mousePosition);
+            this.coordinates[target] = this.getElementPositionWithinBounds(event, target, mousePosition);
         }
     }
 
@@ -131,11 +132,19 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     }
 
     public onDragStart(event, target): void {
-        event.dataTransfer.setData('text/plain', target);
+        event.dataTransfer.setData('text/plain', JSON.stringify({ channel: DRAG_CHANNEL.MOVE_PAPER, target }));
         event.dataTransfer.dropEffect = 'move';
         this.dragStartCoords = {
             left: event.clientX,
             top: event.clientY
         };
+    }
+    public onDragEnd(event): void {
+        console.log('dragend', event, event.dataTransfer.dropEffect);
+        const { target } = JSON.parse(event.dataTransfer.getData('text/plain'));
+        if (event.dataTransfer.dropEffect === 'link') {
+            console.log('removing');
+            this.coordinates[target] = null;
+        }
     }
 }

@@ -27,9 +27,11 @@
 }
 
 img {
-    animation-duration: 1s;
-    animation-name: slideinpaper;
     cursor: pointer;
+    &:not(.touched) {
+        animation-duration: 1s;
+        animation-name: slideinpaper;
+    }
 }
 
 @keyframes slideinpaper {
