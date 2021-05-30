@@ -6,12 +6,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class ScoreService {
     private score: BehaviorSubject<number>;
-    constructor() {
-        this.score = new BehaviorSubject(0);
+    constructor() {}
+
+    public initialize(value: number): void {
+        this.score = new BehaviorSubject(value);
     }
 
     public getScore(): Observable<number> {
         return this.score.asObservable();
+    }
+    public getScoreValue(): number {
+        return this.score.getValue();
     }
     public increase(): void {
         const change = +10;

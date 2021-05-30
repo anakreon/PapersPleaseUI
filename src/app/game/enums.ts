@@ -3,3 +3,9 @@ export enum DRAG_CHANNEL {
     RETURN_PAPER,
     MOVE_PAPER
 }
+
+export enum APPROVAL_RESULT {
+    PASSED,
+    FAILED,
+    FAILED_HARD
+}

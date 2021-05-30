@@ -1,9 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { InputPapers, Papers } from 'papersplease';
+import { Papers } from 'papersplease';
+import { PassportStatus } from '../details/passport/passport.component';
 import { EntrantService } from '../entrant.service';
 import { DRAG_CHANNEL } from '../enums';
-import { GameService } from '../game.service';
-import { InterpreterService } from '../interpreter.service';
+import { RoundService } from '../round.service';
 
 @Component({
     selector: 'app-documents',
@@ -18,15 +18,27 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     public entrantPapers = [];
     private paperDragListeners = {};
     paper = 0;
+    private numberOfPapers = 0;
 
-    constructor(private entrantService: EntrantService, private gameService: GameService, private interpreterService: InterpreterService) {}
+    constructor(
+        private entrantService: EntrantService,
+        private roundService: RoundService
+    ) {}
 
     ngOnInit(): void {
-        this.entrantService.getEntrantWaiting().subscribe((entrant: InputPapers) => {
+        this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
+            this.resetLocals();
             this.isEntrantVisible = true;
-            const papers = this.interpreterService.interpret(entrant);
             this.putPapersOnTable(papers);
         });
+        this.roundService.getApprovalDecision().subscribe((decision) => {
+            this.removePapersFromTable();
+            this.isEntrantVisible = false;
+        });
+    }
+    private resetLocals(): void {
+        this.paperDragListeners = {};
+        this.entrantPapers = [];
     }
 
     private putPapersOnTable(papers: Papers): void {
@@ -51,6 +63,11 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
         if (papers.getWorkPass()) {
             this.putPaperOnTable('workpass');
         }
+        this.numberOfPapers = this.entrantPapers.length;
+    }
+
+    private removePapersFromTable(): void {
+        this.entrantPapers = [];
     }
 
     ngAfterViewInit(): void {
@@ -60,13 +77,14 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
 
     private dropHandler(event): void {
         event.preventDefault();
-        const { target, channel } = JSON.parse(event.dataTransfer.getData('text/plain'));
+        const { target, channel, passportStatus } = JSON.parse(event.dataTransfer.getData('text/plain'));
         if (channel === DRAG_CHANNEL.MOVE_PAPER) {
             const paper = {
                 id: target,
                 ...papersImg[target]
             };
             this.pushToTheMiddle(paper);
+            this.maybeEndInteraction(passportStatus);
         }
     }
 
@@ -81,7 +99,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     }
 
     public onclick(): void {
-        this.gameService.deny('asdf');
+        
         //this.isEntrantVisible = !this.isEntrantVisible;
         /*const keys = Object.keys(papers);
         const paper = {
@@ -126,7 +144,10 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
 
     private documentDragstartHandler(event): void {
         console.log('dragging', event.target.id);
-        event.dataTransfer.setData('text/plain', JSON.stringify({ channel: DRAG_CHANNEL.INSPECT_PAPER, target: event.target.id }));
+        event.dataTransfer.setData(
+            'text/plain',
+            JSON.stringify({ channel: DRAG_CHANNEL.INSPECT_PAPER, target: event.target.id })
+        );
     }
 
     private documentDragendHandler(event): void {
@@ -137,6 +158,30 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
             this.removePaperByKey(target);
             this.paperDragListeners[target] = false;
         }
+    }
+
+    private maybeEndInteraction(passportStatus: PassportStatus): void {
+        console.log('allDocumentsAreOnTable', this.allDocumentsAreOnTable());
+        console.log('madeApprovalDecision', this.madeApprovalDecision(passportStatus), passportStatus);
+        if (this.allDocumentsAreOnTable() && this.madeApprovalDecision(passportStatus)) {
+            if (passportStatus === 'Approved') {
+                this.roundService.makeApproveDecision();
+            } else {
+                this.roundService.makeDenyDecision();
+            }
+        }
+    }
+
+    private madeApprovalDecision(passportStatus: PassportStatus): boolean {
+        return !!passportStatus;
+    }
+
+    private allDocumentsAreOnTable(): boolean {
+        return this.entrantPapers.length === this.numberOfPapers;
+    }
+
+    public detain(): void {
+        this.roundService.makeDetainDecision();
     }
 }
 

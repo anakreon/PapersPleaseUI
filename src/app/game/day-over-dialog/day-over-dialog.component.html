@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Day Over</h2>
+<mat-dialog-content class="mat-typography" *ngIf="isPositiveScore()">
+    <h3>Good work officer - Here is your score:</h3>
+    <b>{{getScore()}}</b>
+</mat-dialog-content>
+<mat-dialog-content class="mat-typography" *ngIf="!isPositiveScore()">
+    <h3>Officer, here is your negative score. You will be relieved of your duty.</h3>
+    <b>{{getScore()}}</b>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="isPositiveScore()">
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Continue Game</button>
+    <button mat-button [mat-dialog-close]="false">Save & End</button>
+</mat-dialog-actions>
+<mat-dialog-actions align="end" *ngIf="!isPositiveScore()">
+    <button mat-button [mat-dialog-close]="false">Game Over</button>
+</mat-dialog-actions>

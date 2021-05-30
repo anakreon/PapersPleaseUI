@@ -8,48 +8,61 @@
             (dragend)="onDragEnd($event)"
             draggable="true"
             [status]="getPassportStatus()"
+            [papers]="papers"
         ></app-passport>
         <app-id-card
             *ngIf="isVisible('idcard')"
             [style.top.px]="getTop('idcard')"
             [style.left.px]="getLeft('idcard')"
             (dragstart)="onDragStart($event, 'idcard')"
-            draggable="true" 
+            (dragend)="onDragEnd($event)"
+            draggable="true"
+            [papers]="papers"
         ></app-id-card>
         <app-work-pass
             *ngIf="isVisible('workpass')"
             [style.top.px]="getTop('workpass')"
             [style.left.px]="getLeft('workpass')"
             (dragstart)="onDragStart($event, 'workpass')"
-            draggable="true" 
+            (dragend)="onDragEnd($event)"
+            draggable="true"
+            [papers]="papers"
         ></app-work-pass>
         <app-access-permit
             *ngIf="isVisible('permit')"
             [style.top.px]="getTop('permit')"
             [style.left.px]="getLeft('permit')"
             (dragstart)="onDragStart($event, 'permit')"
-            draggable="true" 
+            (dragend)="onDragEnd($event)"
+            draggable="true"
+            [papers]="papers"
         ></app-access-permit>
         <app-grant-of-asylum
             *ngIf="isVisible('grant')"
             [style.top.px]="getTop('grant')"
             [style.left.px]="getLeft('grant')"
             (dragstart)="onDragStart($event, 'grant')"
-            draggable="true" 
+            (dragend)="onDragEnd($event)"
+            draggable="true"
+            [papers]="papers"
         ></app-grant-of-asylum>
         <app-certificate-of-vaccination
             *ngIf="isVisible('certificate')"
             [style.top.px]="getTop('certificate')"
             [style.left.px]="getLeft('certificate')"
             (dragstart)="onDragStart($event, 'certificate')"
-            draggable="true" 
+            (dragend)="onDragEnd($event)"
+            draggable="true"
+            [papers]="papers"
         ></app-certificate-of-vaccination>
         <app-diplomatic-authorization
             *ngIf="isVisible('authorization')"
             [style.top.px]="getTop('authorization')"
             [style.left.px]="getLeft('authorization')"
             (dragstart)="onDragStart($event, 'authorization')"
+            (dragend)="onDragEnd($event)"
             draggable="true" 
+            [papers]="papers"
         ></app-diplomatic-authorization>
     </div>
     <app-icon-drawer (onApprove)="approve()" (onDeny)="deny()"></app-icon-drawer>

@@ -13,12 +13,12 @@
             </div>
             <div class="right">
                 <ul>
-                    <li><span class="title">Name:</span><span class="content">Ada Somer</span></li>
-                    <li><span class="title">Id#:</span><span class="content">18R1K-KHVER</span></li>
-                    <li><span class="title">DOB:</span><span class="content">23.02.1962</span></li>
-                    <li><span class="title">Height:</span><span class="content">164cm</span></li>
-                    <li><span class="title">Weight:</span><span class="content">62cm</span></li>
-                    <li><span class="title">Expires:</span><span class="content">19.12.1982</span></li>
+                    <li><span class="title">Name:</span><span class="content">{{grant.getName()}}</span></li>
+                    <li><span class="title">Id#:</span><span class="content">{{grant.getId()}}</span></li>
+                    <li><span class="title">DOB:</span><span class="content">{{grant.getDateOfBirth() | date}}</span></li>
+                    <li><span class="title">Height:</span><span class="content">{{grant.getHeight()}}</span></li>
+                    <li><span class="title">Weight:</span><span class="content">{{grant.getWeight()}}</span></li>
+                    <li><span class="title">Expires:</span><span class="content">{{grant.getExpirationDate() | date}}</span></li>
                 </ul>
             </div>
         </div>

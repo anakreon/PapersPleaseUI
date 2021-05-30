@@ -5,8 +5,8 @@ import { GameGuardService } from './game/game-guard.service';
 import { GameLayoutComponent } from './game/game-layout/game-layout.component';
 
 export const routes: Routes = [
-    //{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-    { path: '', redirectTo: '/game', pathMatch: 'full' },
+    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+    //{ path: '', redirectTo: '/game', pathMatch: 'full' },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'game', component: GameLayoutComponent, canActivate: [GameGuardService] }
 ];

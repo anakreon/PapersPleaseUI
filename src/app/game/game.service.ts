@@ -1,83 +1,84 @@
 import { Injectable } from '@angular/core';
-import { InputPapers, Papers } from 'papersplease';
 import { Observable, Subject } from 'rxjs';
-import { ApprovalService } from './approval.service';
-import { EntrantService } from './entrant.service';
+import { DayService } from './day.service';
 import { GameUserService } from './game-user.service';
 import { ScoreService } from './score.service';
-
-type ApprovalResult = 'approved' | 'denied' | 'detain';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GameService {
-    private fails: number;
-    private approvalResult: Subject<ApprovalResult>;
+    private dailyReportSubject: Subject<void>;
+    private continueSubject: Subject<boolean>;
 
-    constructor(
-        private gameUserService: GameUserService,
-        private entrantService: EntrantService,
-        private scoreService: ScoreService,
-        private approvalService: ApprovalService
-    ) {
-        this.fails = 0;
-        this.approvalResult = new Subject<ApprovalResult>();
+    constructor(private gameUserService: GameUserService, private dayService: DayService, private scoreService: ScoreService) {
+        this.dailyReportSubject = new Subject<void>();
+        this.continueSubject = new Subject<boolean>();
     }
 
     public isReady(): boolean {
-        return this.gameUserService.hasUsername();
+        return this.gameUserService.hasUser();
     }
 
-    public getApprovalResult(): Observable<ApprovalResult> {
-        return this.approvalResult.asObservable();
-    }
-
-    public applyEntrant(): void {
-        this.entrantService.generateEntrant();
-    }
-
-    public getEntrant(): InputPapers {
-        const entrant = this.entrantService.generateEntrant();
-        return entrant;
-    }
-
-    public approve(entrant): void {
-        this.approvalResult.next('approved');
-        /*if (this.approvalService.shouldAllow(entrant)) {
-            this.scoreService.increase();
-        } else if (this.approvalService.shouldDeny(entrant)) {
-            this.fails += 1;
-        } else if (this.approvalService.shouldDetain(entrant)) {
-            this.fails += 2;
-        } else {
-            throw new Error('illegal');
-        }*/
-    }
-
-    public deny(entrant): void {
-        this.approvalResult.next('denied');
-        /*
-        if (this.approvalService.shouldDeny(entrant)) {
-            this.scoreService.increase();
-        } else if (this.approvalService.shouldAllow(entrant)) {
-            this.fails += 1;
-        } else if (this.approvalService.shouldDetain(entrant)) {
-            this.fails += 1;
-        } else {
-            throw new Error('illegal');
-        }*/
-    }
-
-    public detain(entrant): void {
-        if (this.approvalService.shouldDetain(entrant)) {
-            this.scoreService.increase();
-        } else if (this.approvalService.shouldDeny(entrant)) {
-            this.fails += 1;
-        } else if (this.approvalService.shouldAllow(entrant)) {
-            this.fails += 1;
-        } else {
-            throw new Error('illegal');
+    public async startGame(): Promise<void> {
+        const initialScore = this.gameUserService.getScore();
+        this.scoreService.initialize(initialScore);
+        try {
+            await this.startGameLoop();
+            this.saveResults();
+        } catch (e) {
+            // was negative score = game over
         }
+    }
+
+    private async startGameLoop(): Promise<void> {
+        await this.startDay();
+        this.showDailyReport();
+        if (this.scoreIsNegative()) {
+            return Promise.reject();
+        } else {
+            const shouldContinue = await this.shouldContinue();
+            if (shouldContinue) {
+                await this.startGameLoop();
+            }
+        }
+    }
+
+    public getDailyReport(): Observable<void> {
+        return this.dailyReportSubject.asObservable();
+    }
+
+    private showDailyReport(): void {
+        this.dailyReportSubject.next();
+    }
+
+    private shouldContinue(): Promise<boolean> {
+        return new Promise((resolve) => {
+            const subscription = this.continueSubject.subscribe((shouldContinue) => {
+                subscription.unsubscribe();
+                resolve(shouldContinue);
+            });
+        });
+    }
+
+    public continueTheGame(): void {
+        this.continueSubject.next(true);
+    }
+
+    public endTheGame(): void {
+        this.continueSubject.next(false);
+    }
+
+    private startDay(): Promise<void> {
+        return this.dayService.startDay();
+    }
+
+    private scoreIsNegative(): boolean {
+        return this.scoreService.getScoreValue() < 0;
+    }
+
+    private saveResults(): void {
+        console.log('saving results');
+        // save username / score
     }
 }

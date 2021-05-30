@@ -1,25 +1,30 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { User } from '../user/user.types';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GameUserService {
-    private username: BehaviorSubject<string>;
+    private user: BehaviorSubject<User>;
 
     constructor() {
-        this.username = new BehaviorSubject<string>('');
+        this.user = new BehaviorSubject<User>(null);
     }
 
-    public setUser(username: string): void {
-        this.username.next(username);
+    public setUser(user: User): void {
+        this.user.next(user);
     }
 
-    public getUser(): Observable<string> {
-        return this.username.asObservable();
+    public getUser(): Observable<User> {
+        return this.user.asObservable();
     }
 
-    public hasUsername(): boolean {
-        return !!this.username.getValue();
+    public hasUser(): boolean {
+        return !!this.user.getValue();
+    }
+
+    public getScore(): number {
+        return this.user.getValue().score;
     }
 }

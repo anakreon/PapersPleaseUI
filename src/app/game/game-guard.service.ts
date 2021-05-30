@@ -8,6 +8,6 @@ export class GameGuardService {
     constructor(private gameService: GameService) {}
 
     public canActivate(): boolean {
-        return true;//this.gameService.isReady();
+        return this.gameService.isReady();
     }
 }

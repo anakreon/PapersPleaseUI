@@ -1,5 +1,5 @@
 <mat-selection-list #list [multiple]="false" (selectionChange)="onSelectionFromList($event)">
-    <mat-list-option *ngFor="let user of getUsers()" [value]="user.name">
+    <mat-list-option *ngFor="let user of getUsers()" [value]="user">
         {{ user.name }} - {{ user.score }}
     </mat-list-option>
 </mat-selection-list>

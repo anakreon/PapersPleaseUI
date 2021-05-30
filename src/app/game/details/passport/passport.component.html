@@ -17,17 +17,21 @@
         <div class="right">
             <ul>
                 <li>
-                    <div class="title">Date of Birth</div>
-                    <div class="content">1940.05.27</div>
+                    <div class="title">Name</div>
+                    <div class="content">{{passport.getName()}}</div>
                 </li>
-                <li><span class="title">Sex</span><span class="content">&nbsp; F</span></li>
+                <li>
+                    <div class="title">Date of Birth</div>
+                    <div class="content">{{passport.getDateOfBirth() | date}}</div>
+                </li>
+                <li><span class="title">Sex</span><span class="content">&nbsp; {{passport.getSex()}}</span></li>
                 <li>
                     <div class="title">Issued</div>
-                    <div class="content">Tsunkeido</div>
+                    <div class="content">{{passport.getIssuer()}}</div>
                 </li>
                 <li>
                     <div class="title">Expires</div>
-                    <div class="content">1982.11.01</div>
+                    <div class="content">{{passport.getExpirationDate() | date}}</div>
                 </li>
             </ul>
         </div>

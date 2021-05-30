@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { User } from '../user.types';
 
 @Component({
     selector: 'app-user-form',
@@ -7,7 +8,7 @@ import { FormBuilder } from '@angular/forms';
     styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent {
-    @Output() createUsername: EventEmitter<string> = new EventEmitter<string>();
+    @Output() createUser: EventEmitter<User> = new EventEmitter<User>();
 
     public userForm = this.formBuilder.group({
         name: ''
@@ -16,8 +17,8 @@ export class UserFormComponent {
     constructor(private formBuilder: FormBuilder) {}
 
     public setUsername(event): void {
-        const username = event.target.value;
-        this.createUsername.emit(username);
+        const user = { name: event.target.value, score: 0 };
+        this.createUser.emit(user);
     }
     public onSubmit(): void {
         this.userForm.reset();

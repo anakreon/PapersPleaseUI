@@ -1,14 +1,8 @@
-import {
-    AfterViewInit,
-    Component,
-    ComponentFactoryResolver,
-    ElementRef,
-    OnInit,
-    QueryList,
-    ViewChild,
-    ViewChildren
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Papers } from 'papersplease';
+import { EntrantService } from '../../entrant.service';
 import { DRAG_CHANNEL } from '../../enums';
+import { RoundService } from '../../round.service';
 import { PassportStatus } from '../passport/passport.component';
 
 interface Position {
@@ -58,10 +52,18 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     private boundingRect: DOMRect;
     private dragStartCoords: Position;
     public passportStatus: PassportStatus;
+    public papers: Papers;
 
-    constructor() {}
+    constructor(private roundService: RoundService, private entrantService: EntrantService) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.roundService.getArrivedAtBooth().subscribe(() => {
+            this.resetPassportStatus();
+        });
+        this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
+            this.papers = papers;
+        });
+    }
 
     ngAfterViewInit(): void {
         this.dropzone.nativeElement.addEventListener('drop', this.dropHandler.bind(this));
@@ -135,7 +137,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     }
 
     public onDragStart(event, target): void {
-        event.dataTransfer.setData('text/plain', JSON.stringify({ channel: DRAG_CHANNEL.MOVE_PAPER, target }));
+        event.dataTransfer.setData(
+            'text/plain',
+            JSON.stringify({ channel: DRAG_CHANNEL.MOVE_PAPER, target, passportStatus: this.passportStatus })
+        );
         event.dataTransfer.dropEffect = 'move';
         this.dragStartCoords = {
             left: event.clientX,
@@ -146,7 +151,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         console.log('dragend', event, event.dataTransfer.dropEffect);
         const { target } = JSON.parse(event.dataTransfer.getData('text/plain'));
         if (event.dataTransfer.dropEffect === 'link') {
-            console.log('removing');
+            console.log('removing', target);
             this.coordinates[target] = null;
         }
     }
@@ -155,14 +160,18 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         return this.passportStatus;
     }
 
+    private resetPassportStatus(): void {
+        this.passportStatus = null;
+    }
+
     public deny(): void {
-        if (this.isPassportAligned([340, 420], [60, 100])) {
+        if (this.isPassportAligned([340, 420], [60, 110])) {
             this.passportStatus = 'Denied';
             console.log('denying');
         }
     }
     public approve(): void {
-        if (this.isPassportAligned([510, 570], [60, 100])) {
+        if (this.isPassportAligned([510, 570], [60, 110])) {
             this.passportStatus = 'Approved';
             console.log('approving');
         }

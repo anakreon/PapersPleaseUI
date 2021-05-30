@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { GameUserService } from 'src/app/game/game-user.service';
+import { User } from 'src/app/user/user.types';
 
 @Component({
     selector: 'app-dashboard',
@@ -12,13 +13,13 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    public onUsernameSelected(username: string): void {
-        this.gameUserService.setUser(username);
+    public onUserSelected(user: User): void {
+        this.gameUserService.setUser(user);
         this.router.navigate(['game']);
     }
 
-    public onUsernameCreated(username: string): void {
-        this.gameUserService.setUser(username);
+    public onUserCreated(user: User): void {
+        this.gameUserService.setUser(user);
         this.router.navigate(['game']);
     }
 }

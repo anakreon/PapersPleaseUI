@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { map, shareReplay } from 'rxjs/operators';
 import { GameUserService } from '../game/game-user.service';
+import { User } from '../user/user.types';
 
 @Component({
     selector: 'app-navbar',
@@ -19,8 +20,10 @@ export class NavbarComponent {
 
     constructor(private breakpointObserver: BreakpointObserver, private router: Router, private gameUserService: GameUserService) {
         this.username = '';
-        this.gameUserService.getUser().subscribe((username) => {
-            this.username = username;
+        this.gameUserService.getUser().subscribe((user: User) => {
+            if (user) {
+                this.username = user.name;
+            }
         });
     }
 
@@ -29,7 +32,7 @@ export class NavbarComponent {
     }
 
     public logout(): void {
-        this.gameUserService.setUser('');
+        this.gameUserService.setUser(null);
         this.router.navigate(['game']);
     }
 }

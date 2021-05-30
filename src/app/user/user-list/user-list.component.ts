@@ -8,7 +8,7 @@ import { User } from '../user.types';
     styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-    @Output() selectUsername: EventEmitter<string> = new EventEmitter<string>();
+    @Output() selectUser: EventEmitter<User> = new EventEmitter<User>();
     private users: User[];
 
     constructor(private userService: UserService) {}
@@ -22,7 +22,7 @@ export class UserListComponent implements OnInit {
     }
 
     public onSelectionFromList(event): void {
-        const username = event.option.value;
-        this.selectUsername.emit(username);
+        const user = event.option.value;
+        this.selectUser.emit(user);
     }
 }

@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Papers } from 'papersplease';
+import { Passport } from 'papersplease/lib/papers/Passport';
 
 export type PassportStatus = 'Approved' | 'Denied';
 @Component({
@@ -8,10 +10,15 @@ export type PassportStatus = 'Approved' | 'Denied';
 })
 export class PassportComponent implements OnInit {
     @Input() public status: PassportStatus = null;
+    @Input() public papers: Papers = null;
+
+    public passport: Passport;
 
     constructor() {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.passport = this.papers.getPassport();
+    }
 
     public isApproved(): boolean {
         return this.status === 'Approved';

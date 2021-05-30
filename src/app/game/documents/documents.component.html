@@ -1,8 +1,13 @@
 <div class="window">
     <img class="entrant" [hidden]="!isEntrantVisible" src="/assets/immigrant.png" />
 </div>
+<div class="buttonwrapper" (click)="detain()">
+    <img class="redbutton" src="assets/redbutton.png" />
+    <span class>Detain</span>
+</div>
 <div class="table" (click)="onclick()" #dropzone>
     <img
+        class="paper"
         (mousedown)="onImgMouseDown($event)"
         *ngFor="let paper of entrantPapers"
         [id]="paper.id"
