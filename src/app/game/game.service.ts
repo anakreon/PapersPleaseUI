@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { UserService } from '../user/user.service';
 import { DayService } from './day.service';
 import { GameUserService } from './game-user.service';
 import { ScoreService } from './score.service';
@@ -11,7 +12,12 @@ export class GameService {
     private dailyReportSubject: Subject<void>;
     private continueSubject: Subject<boolean>;
 
-    constructor(private gameUserService: GameUserService, private dayService: DayService, private scoreService: ScoreService) {
+    constructor(
+        private gameUserService: GameUserService,
+        private dayService: DayService,
+        private scoreService: ScoreService,
+        private userService: UserService
+    ) {
         this.dailyReportSubject = new Subject<void>();
         this.continueSubject = new Subject<boolean>();
     }
@@ -35,10 +41,13 @@ export class GameService {
         await this.startDay();
         this.showDailyReport();
         if (this.scoreIsNegative()) {
+            console.log('reject');
             return Promise.reject();
         } else {
             const shouldContinue = await this.shouldContinue();
+            console.log('shouldcontinue?');
             if (shouldContinue) {
+                console.log('shouldcontinue');
                 await this.startGameLoop();
             }
         }
@@ -49,6 +58,7 @@ export class GameService {
     }
 
     private showDailyReport(): void {
+        console.log('showDailyReport')
         this.dailyReportSubject.next();
     }
 
@@ -78,7 +88,9 @@ export class GameService {
     }
 
     private saveResults(): void {
-        console.log('saving results');
-        // save username / score
+        const user = this.gameUserService.getUserValue();
+        user.score = this.scoreService.getScoreValue();
+        this.userService.upsertUser(user);
+        this.gameUserService.setUser(null);
     }
 }

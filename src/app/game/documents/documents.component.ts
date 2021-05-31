@@ -1,5 +1,6 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { Papers } from 'papersplease';
+import { Subscription } from 'rxjs';
 import { PassportStatus } from '../details/passport/passport.component';
 import { EntrantService } from '../entrant.service';
 import { DRAG_CHANNEL } from '../enums';
@@ -10,8 +11,10 @@ import { RoundService } from '../round.service';
     templateUrl: './documents.component.html',
     styleUrls: ['./documents.component.scss']
 })
-export class DocumentsComponent implements OnInit, AfterViewInit {
+export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('dropzone') dropzone: ElementRef;
+    private papersInterpretedSubscription: Subscription;
+    private approvalDecisionSubscription: Subscription;
 
     public isEntrantVisible = false;
     public touched = false;
@@ -26,15 +29,20 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit(): void {
-        this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
+        this.papersInterpretedSubscription = this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
+            console.log(papers);
             this.resetLocals();
             this.isEntrantVisible = true;
             this.putPapersOnTable(papers);
         });
-        this.roundService.getApprovalDecision().subscribe((decision) => {
+        this.approvalDecisionSubscription = this.roundService.getApprovalDecision().subscribe((decision) => {
             this.removePapersFromTable();
             this.isEntrantVisible = false;
         });
+    }
+    ngOnDestroy(): void {
+        this.papersInterpretedSubscription.unsubscribe();
+        this.approvalDecisionSubscription.unsubscribe();
     }
     private resetLocals(): void {
         this.paperDragListeners = {};

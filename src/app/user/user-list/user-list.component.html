@@ -1,5 +1,8 @@
 <mat-selection-list #list [multiple]="false" (selectionChange)="onSelectionFromList($event)">
     <mat-list-option *ngFor="let user of getUsers()" [value]="user">
-        {{ user.name }} - {{ user.score }}
+        <div class="list-item">{{ user.name }} - {{ user.score }}</div>
+        <button mat-fab color="warn" class="icon-button" (click)="delete(user)">
+            <mat-icon>delete</mat-icon>
+        </button>
     </mat-list-option>
 </mat-selection-list>

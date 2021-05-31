@@ -25,4 +25,9 @@ export class UserListComponent implements OnInit {
         const user = event.option.value;
         this.selectUser.emit(user);
     }
+
+    public delete(user: User): void {
+        this.userService.deleteUser(user);
+        this.users = this.userService.getUsers();
+    }
 }

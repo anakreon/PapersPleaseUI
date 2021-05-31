@@ -2,19 +2,30 @@ import { Injectable } from '@angular/core';
 import { InputPapers, Papers } from 'papersplease';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { BulletinService } from './bulletin.service';
 import { InterpreterService } from './interpreter.service';
+import { PaperGeneratorService } from './paper-generator.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class EntrantService {
+    private bulletin: string;
     private entrantWaiting: Subject<InputPapers>;
-    constructor(private interpreterService: InterpreterService) {
+    constructor(
+        private interpreterService: InterpreterService,
+        private paperGeneratorService: PaperGeneratorService,
+        bulletinService: BulletinService
+    ) {
         this.entrantWaiting = new Subject<InputPapers>();
+        bulletinService.getBulletin().subscribe((bulletin: string) => {
+            this.bulletin = bulletin;
+        });
     }
 
     public generateEntrant(): InputPapers {
         const entrant = this.getEntrant();
+        console.log('e', entrant);
         this.entrantWaiting.next(entrant);
         return entrant;
     }
@@ -24,23 +35,12 @@ export class EntrantService {
     }
 
     public getInterpretedPapers(): Observable<Papers> {
-        return this.entrantWaiting.asObservable().pipe(
-            map((inputPapers) => this.interpreterService.interpret(inputPapers))
-        );
+        return this.entrantWaiting
+            .asObservable()
+            .pipe(map((inputPapers) => this.interpreterService.interpret(inputPapers)));
     }
 
     private getEntrant(): InputPapers {
-        return {
-            passport: `ID#: GC07D-FU8AR
-                NATION: Arstotzka
-                NAME: Guyovich, Russian
-                DOB: 1933.11.28
-                SEX: M
-                ISS: East Grestin
-                EXP: 1981.07.10`,
-            access_permit: `ID#: GXXXX-FU8AR
-                NAME: Guyovich, Russian
-                NATION: Arstotzka`
-        };
+        return this.paperGeneratorService.generatePapers(this.bulletin);
     }
 }

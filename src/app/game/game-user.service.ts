@@ -27,4 +27,8 @@ export class GameUserService {
     public getScore(): number {
         return this.user.getValue().score;
     }
+
+    public getUserValue(): User {
+        return this.user.getValue();
+    }
 }

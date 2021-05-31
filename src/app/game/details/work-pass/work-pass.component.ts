@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Papers } from 'papersplease';
-import { WorkPass } from 'papersplease/lib/papers/WorkPass';
+import { PersonalData } from 'papersplease/lib/papers/PersonalData';
 
 @Component({
     selector: 'app-work-pass',
@@ -9,9 +9,9 @@ import { WorkPass } from 'papersplease/lib/papers/WorkPass';
 })
 export class WorkPassComponent implements OnInit {
     @Input() public papers: Papers = null;
-    public workpass: WorkPass;
+    public data: PersonalData;
 
     ngOnInit(): void {
-        this.workpass = this.papers.getWorkPass();
+        this.data = this.papers.getPersonalData();
     }
 }

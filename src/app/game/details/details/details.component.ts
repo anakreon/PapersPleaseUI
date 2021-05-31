@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Papers } from 'papersplease';
+import { Subscription } from 'rxjs';
 import { EntrantService } from '../../entrant.service';
 import { DRAG_CHANNEL } from '../../enums';
 import { RoundService } from '../../round.service';
@@ -12,7 +13,7 @@ interface Position {
 
 const sizes = {
     passport: {
-        width: 200,
+        width: 215,
         height: 300
     },
     idcard: {
@@ -21,7 +22,7 @@ const sizes = {
     },
     permit: {
         width: 150,
-        height: 300
+        height: 330
     },
     workpass: {
         width: 150,
@@ -46,8 +47,10 @@ const sizes = {
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.scss']
 })
-export class DetailsComponent implements OnInit, AfterViewInit {
+export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('dropzone') dropzone: ElementRef;
+    private boothArrivalSubscription: Subscription;
+    private papersInterpretedSubscription: Subscription;
     public coordinates = {};
     private boundingRect: DOMRect;
     private dragStartCoords: Position;
@@ -57,12 +60,18 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     constructor(private roundService: RoundService, private entrantService: EntrantService) {}
 
     ngOnInit(): void {
-        this.roundService.getArrivedAtBooth().subscribe(() => {
+        this.boothArrivalSubscription = this.roundService.getArrivedAtBooth().subscribe(() => {
             this.resetPassportStatus();
         });
-        this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
+        this.papersInterpretedSubscription = this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
             this.papers = papers;
+            console.log(papers);
         });
+    }
+
+    ngOnDestroy(): void {
+        this.boothArrivalSubscription.unsubscribe();
+        this.papersInterpretedSubscription.unsubscribe();
     }
 
     ngAfterViewInit(): void {

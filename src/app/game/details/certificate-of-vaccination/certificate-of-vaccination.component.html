@@ -6,25 +6,15 @@
             Vaccination
         </div>
         <div class="content">
-            <div class="main-text">Karl Calise</div>
-            <div class="main-text">ID#: PWBB5-FAB3V</div>
+            <div class="main-text">{{certificate.getName()}}</div>
+            <div class="main-text">ID#: {{certificate.getId()}}</div>
             <hr />
             <table>
                 <tr>
-                    <th>DATE</th>
                     <th>VACCINE</th>
                 </tr>
-                <tr>
-                    <td>22.02.82</td>
-                    <td>POLIO</td>
-                </tr>
-                <tr>
-                    <td>23.02.82</td>
-                    <td>YEL.FEV</td>
-                </tr>
-                <tr>
-                    <td>25.02.82</td>
-                    <td>CHOLERA</td>
+                <tr *ngFor="let vaccine of vaccines">
+                    <td>{{vaccine}}</td>
                 </tr>
             </table>
             <div class="disclaimer">Max Valid for 3 years</div>

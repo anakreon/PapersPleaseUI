@@ -1,28 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { DayService } from '../day.service';
 import { GameService } from '../game.service';
 import { ScoreService } from '../score.service';
 import { DayOverDialogComponent } from '../day-over-dialog/day-over-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-game-layout',
     templateUrl: './game-layout.component.html',
     styleUrls: ['./game-layout.component.scss']
 })
-export class GameLayoutComponent implements OnInit {
+export class GameLayoutComponent implements OnInit, OnDestroy {
+    private subscription: Subscription;
+
     constructor(
         private scoreService: ScoreService,
         private gameService: GameService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
         this.gameService.startGame();
-        this.gameService.getDailyReport().subscribe(() => {
+        this.subscription = this.gameService.getDailyReport().subscribe(() => {
+            console.log('getting daily report')
             this.openDayEndDialog();
         });
+    }
+
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 
     private openDayEndDialog(): void {
@@ -30,12 +39,15 @@ export class GameLayoutComponent implements OnInit {
             height: '220px',
             width: '600px'
         });
-        dialogRef.afterClosed().subscribe(shouldContinue => {
+        dialogRef.disableClose = true;
+        const subscription = dialogRef.afterClosed().subscribe(shouldContinue => {
             if (shouldContinue) {
                 this.gameService.continueTheGame();
             } else {
                 this.gameService.endTheGame();
+                this.router.navigate(['dashboard']);
             }
+            subscription.unsubscribe();
         });
     }
 

@@ -11,9 +11,10 @@ import { DocumentsComponent } from './documents/documents.component';
 import { DetailsModule } from './details/details.module';
 import { DayOverDialogComponent } from './day-over-dialog/day-over-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { UserModule } from '../user/user.module';
 
 @NgModule({
     declarations: [GameLayoutComponent, QueueComponent, DocumentsComponent, DayOverDialogComponent],
-    imports: [CommonModule, DetailsModule, MatGridListModule, MatIconModule, MatDialogModule, MatButtonModule]
+    imports: [CommonModule, DetailsModule, MatGridListModule, MatIconModule, MatDialogModule, MatButtonModule, UserModule]
 })
 export class GameModule {}

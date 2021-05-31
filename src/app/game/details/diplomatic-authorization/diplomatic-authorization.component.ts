@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Papers } from 'papersplease';
+import { Nation, Papers } from 'papersplease';
 import { DiplomaticAuthorization } from 'papersplease/lib/papers/DiplomaticAuthorization';
 
 @Component({
@@ -10,8 +10,10 @@ import { DiplomaticAuthorization } from 'papersplease/lib/papers/DiplomaticAutho
 export class DiplomaticAuthorizationComponent implements OnInit {
     @Input() public papers: Papers = null;
     public authorization: DiplomaticAuthorization;
+    public access: Nation[];
 
     ngOnInit(): void {
         this.authorization = this.papers.getDiplomaticAuthorization();
+        this.access = (<any>this.authorization).access;
     }
 }

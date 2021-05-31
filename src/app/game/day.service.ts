@@ -20,11 +20,11 @@ export class DayService {
     }
 
     public async startDay(): Promise<void> {
+        console.log('start day');
         this.generateNewBulletin();
         this.startTimer();
         await this.startRounds();
         console.log('ending rounds');
-        this.printDailyScore();
     }
 
     private async startRounds(): Promise<void> {
@@ -41,10 +41,6 @@ export class DayService {
                         roundSubscription.unsubscribe();
                         clearInterval(intervalId);
                         resolve();
-                        /*const roundEndSubscription = this.roundEndRequestSubject.subscribe(() => {
-                            roundEndSubscription.unsubscribe();
-                            resolve();
-                        });*/
                     }
                 }
             }, 500);
@@ -84,17 +80,4 @@ export class DayService {
         return this.getTimerRemainingMs() > 0;
     }
 
-    private printDailyScore(): void {
-        //
-    }
 }
-
-
-
-    /*startDay()
-    - generate new bulletin
-    - start Timer
-    - while timer < limit
-        - wait for speaker call //non-blocking
-        - startRound()
-    - print daily score*/
