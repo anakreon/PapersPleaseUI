@@ -26,7 +26,11 @@
             padding: 0;
             margin: 0;
             li {
-                margin-bottom: 2px;
+                margin-bottom: 0px;
+            }
+            li.double-li {
+                display: flex;
+                justify-content: space-between;
             }
         }
         .title {

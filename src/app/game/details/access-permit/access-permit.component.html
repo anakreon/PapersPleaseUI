@@ -24,13 +24,19 @@
                     <div class="title">Duration</div>
                     <div class="content">{{permit.getDuration()}}</div>
                 </li>
-                <li>
-                    <div class="title">Height</div>
-                    <div class="content">{{permit.getHeight()}}</div>
+                <li class="double-li">
+                    <div>
+                        <div class="title">Height</div>
+                        <div class="content">{{permit.getHeight()}}</div>
+                    </div>
+                    <div>
+                        <div class="title">Weight</div>
+                        <div class="content">{{permit.getWeight()}}</div>
+                    </div>
                 </li>
                 <li>
-                    <div class="title">Weight</div>
-                    <div class="content">{{permit.getWeight()}}</div>
+                    <div class="title">Expires</div>
+                    <div class="content">{{permit.getExpirationDate() | date}}</div>
                 </li>
             </ul>
         </div>

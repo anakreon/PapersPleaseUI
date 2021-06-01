@@ -55,6 +55,7 @@ const sizes = {
 export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('dropzone') dropzone: ElementRef;
     private boothArrivalSubscription: Subscription;
+    private approvalDecisionSubscription: Subscription;
     private papersInterpretedSubscription: Subscription;
     private bulletinSubscription: Subscription;
     public coordinates = {};
@@ -70,18 +71,20 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.boothArrivalSubscription = this.roundService.getArrivedAtBooth().subscribe(() => {
             this.resetPassportStatus();
         });
+        this.approvalDecisionSubscription = this.roundService.getApprovalDecision().subscribe(() => {
+            this.coordinates = {};
+        });
         this.papersInterpretedSubscription = this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
             this.papers = papers;
-            console.log(papers);
         });
         this.bulletinSubscription = this.bulletinService.getBulletin().subscribe((bulletin: string) => {
-            console.log('getting bulletin: ', bulletin);
             this.bulletin = bulletin;
         });
     }
 
     ngOnDestroy(): void {
         this.boothArrivalSubscription.unsubscribe();
+        this.approvalDecisionSubscription.unsubscribe();
         this.papersInterpretedSubscription.unsubscribe();
         this.bulletinSubscription.unsubscribe();
     }

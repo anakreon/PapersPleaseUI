@@ -41,6 +41,6 @@ export class EntrantService {
     }
 
     private getEntrant(): InputPapers {
-        return this.paperGeneratorService.generatePapers(this.bulletin);
+        return this.paperGeneratorService.generatePapers();
     }
 }
