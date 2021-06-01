@@ -37,7 +37,7 @@ export class EntrantService {
     public getInterpretedPapers(): Observable<Papers> {
         return this.entrantWaiting
             .asObservable()
-            .pipe(map((inputPapers) => this.interpreterService.interpret(inputPapers)));
+            .pipe(map((inputPapers) => this.interpreterService.interpretPapers(inputPapers)));
     }
 
     private getEntrant(): InputPapers {

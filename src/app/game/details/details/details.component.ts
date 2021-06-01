@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Papers } from 'papersplease';
 import { Subscription } from 'rxjs';
+import { BulletinService } from '../../bulletin.service';
 import { EntrantService } from '../../entrant.service';
 import { DRAG_CHANNEL } from '../../enums';
 import { RoundService } from '../../round.service';
@@ -39,6 +40,10 @@ const sizes = {
     authorization: {
         width: 200,
         height: 300
+    },
+    bulletin: {
+        width: 263,
+        height: 329
     }
 };
 
@@ -51,13 +56,15 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('dropzone') dropzone: ElementRef;
     private boothArrivalSubscription: Subscription;
     private papersInterpretedSubscription: Subscription;
+    private bulletinSubscription: Subscription;
     public coordinates = {};
     private boundingRect: DOMRect;
     private dragStartCoords: Position;
     public passportStatus: PassportStatus;
     public papers: Papers;
+    public bulletin: string;
 
-    constructor(private roundService: RoundService, private entrantService: EntrantService) {}
+    constructor(private roundService: RoundService, private entrantService: EntrantService, private bulletinService: BulletinService) {}
 
     ngOnInit(): void {
         this.boothArrivalSubscription = this.roundService.getArrivedAtBooth().subscribe(() => {
@@ -67,11 +74,16 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.papers = papers;
             console.log(papers);
         });
+        this.bulletinSubscription = this.bulletinService.getBulletin().subscribe((bulletin: string) => {
+            console.log('getting bulletin: ', bulletin);
+            this.bulletin = bulletin;
+        });
     }
 
     ngOnDestroy(): void {
         this.boothArrivalSubscription.unsubscribe();
         this.papersInterpretedSubscription.unsubscribe();
+        this.bulletinSubscription.unsubscribe();
     }
 
     ngAfterViewInit(): void {

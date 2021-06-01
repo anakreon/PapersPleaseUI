@@ -61,9 +61,18 @@
             [style.left.px]="getLeft('authorization')"
             (dragstart)="onDragStart($event, 'authorization')"
             (dragend)="onDragEnd($event)"
-            draggable="true" 
+            draggable="true"
             [papers]="papers"
         ></app-diplomatic-authorization>
+        <app-bulletin
+            *ngIf="isVisible('bulletin')"
+            [style.top.px]="getTop('bulletin')"
+            [style.left.px]="getLeft('bulletin')"
+            (dragstart)="onDragStart($event, 'bulletin')"
+            (dragend)="onDragEnd($event)"
+            draggable="true"
+            [bulletin]="bulletin"
+        ></app-bulletin>
     </div>
     <app-icon-drawer (onApprove)="approve()" (onDeny)="deny()"></app-icon-drawer>
 </div>

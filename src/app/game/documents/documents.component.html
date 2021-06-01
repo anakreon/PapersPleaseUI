@@ -4,6 +4,15 @@
 <div class="buttonwrapper" (click)="detain()">
     <img class="redbutton" src="assets/redbutton.png" />
     <span class>Detain</span>
+    <div
+        class="bulletin"
+        [style.visibility]="shouldShowBulletin ? 'visible' : 'hidden'"
+        (mousedown)="onImgMouseDown($event)"
+        draggable="true"
+        id="bulletin"
+    >
+        Bulletin
+    </div>
 </div>
 <div class="table" (click)="onclick()" #dropzone>
     <img

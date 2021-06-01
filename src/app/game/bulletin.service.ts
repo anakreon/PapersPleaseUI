@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { PaperGeneratorService } from './paper-generator.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class BulletinService {
-    private bulletin: Subject<string>;
+    private bulletin: BehaviorSubject<string>;
     constructor(private paperGeneratorService: PaperGeneratorService) {
-        this.bulletin = new Subject<string>();
+        this.bulletin = new BehaviorSubject<string>('');
     }
 
     public generateBulletin(): void {

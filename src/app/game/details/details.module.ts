@@ -9,6 +9,7 @@ import { AccessPermitComponent } from './access-permit/access-permit.component';
 import { GrantOfAsylumComponent } from './grant-of-asylum/grant-of-asylum.component';
 import { CertificateOfVaccinationComponent } from './certificate-of-vaccination/certificate-of-vaccination.component';
 import { DiplomaticAuthorizationComponent } from './diplomatic-authorization/diplomatic-authorization.component';
+import { BulletinComponent } from './bulletin/bulletin.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { DiplomaticAuthorizationComponent } from './diplomatic-authorization/dip
         AccessPermitComponent,
         GrantOfAsylumComponent,
         CertificateOfVaccinationComponent,
-        DiplomaticAuthorizationComponent
+        DiplomaticAuthorizationComponent,
+        BulletinComponent
     ],
     imports: [CommonModule],
     exports: [DetailsComponent]

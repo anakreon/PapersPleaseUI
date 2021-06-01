@@ -16,6 +16,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     private papersInterpretedSubscription: Subscription;
     private approvalDecisionSubscription: Subscription;
 
+    public shouldShowBulletin = true;
     public isEntrantVisible = false;
     public touched = false;
     public entrantPapers = [];
@@ -87,12 +88,16 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
         event.preventDefault();
         const { target, channel, passportStatus } = JSON.parse(event.dataTransfer.getData('text/plain'));
         if (channel === DRAG_CHANNEL.MOVE_PAPER) {
-            const paper = {
-                id: target,
-                ...papersImg[target]
-            };
-            this.pushToTheMiddle(paper);
-            this.maybeEndInteraction(passportStatus);
+            if (target === 'bulletin') {
+                this.shouldShowBulletin = true;
+            } else {
+                const paper = {
+                    id: target,
+                    ...papersImg[target]
+                };
+                this.pushToTheMiddle(paper);
+                this.maybeEndInteraction(passportStatus);
+            }
         }
     }
 
@@ -162,9 +167,14 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('dragend');
         const { channel, target } = JSON.parse(event.dataTransfer.getData('text/plain'));
         if (channel === DRAG_CHANNEL.INSPECT_PAPER && event.dataTransfer.dropEffect !== 'none') {
+            if (target === 'bulletin') {
+                console.log('target is:', target);
+                this.shouldShowBulletin = false;
+            } else {
+                this.removePaperByKey(target);
+                this.paperDragListeners[target] = false;
+            }
             console.log(channel, event.dataTransfer.dropEffect);
-            this.removePaperByKey(target);
-            this.paperDragListeners[target] = false;
         }
     }
 
