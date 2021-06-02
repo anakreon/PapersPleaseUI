@@ -16,10 +16,16 @@
     z-index: 1;
 }
 
+.play_arrow, .pause {
+    transform: scale(1.5);
+    cursor: pointer;
+}
+
 .left-right-wrapper {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    align-items: center;
 }
 
 .left-wrapper {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { UserService } from '../user/user.service';
+import { BgmService } from './bgm.service';
 import { DayService } from './day.service';
 import { GameUserService } from './game-user.service';
 import { ScoreService } from './score.service';
@@ -16,7 +17,8 @@ export class GameService {
         private gameUserService: GameUserService,
         private dayService: DayService,
         private scoreService: ScoreService,
-        private userService: UserService
+        private userService: UserService,
+        private bgmService: BgmService
     ) {
         this.dailyReportSubject = new Subject<void>();
         this.continueSubject = new Subject<boolean>();
@@ -38,7 +40,7 @@ export class GameService {
     }
 
     private async startGameLoop(): Promise<void> {
-        await this.startDay();
+        await this.startDayWithBgm();
         this.showDailyReport();
         if (this.scoreIsNegative()) {
             return Promise.reject();
@@ -48,6 +50,12 @@ export class GameService {
                 await this.startGameLoop();
             }
         }
+    }
+
+    private async startDayWithBgm(): Promise<void> {
+        this.bgmService.play();
+        await this.startDay();
+        this.bgmService.pause();
     }
 
     public getDailyReport(): Observable<void> {

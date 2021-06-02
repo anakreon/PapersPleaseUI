@@ -6,6 +6,7 @@ import { GameService } from '../game.service';
 import { ScoreService } from '../score.service';
 import { DayOverDialogComponent } from '../day-over-dialog/day-over-dialog.component';
 import { Router } from '@angular/router';
+import { BgmService } from '../bgm.service';
 
 @Component({
     selector: 'app-game-layout',
