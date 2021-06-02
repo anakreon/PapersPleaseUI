@@ -54,15 +54,15 @@
                 li {
                     margin-bottom: 2px;
                 }
-                span {
+                h5, p {
                     display: inline;
                     margin-left: 5px;
                 }
             }
-            .title {
+            h5 {
                 font-weight: bold;
             }
-            .content {
+            p {
                 margin-top: -5px;
             }
         }

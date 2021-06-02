@@ -1,10 +1,10 @@
-<div class="window">
+<section class="window">
     <img class="entrant" [hidden]="!isEntrantVisible" src="/assets/immigrant.png" />
-</div>
-<div class="buttonwrapper" (click)="detain()">
+</section>
+<section class="buttonwrapper" (click)="detain()">
     <img class="redbutton" src="assets/redbutton.png" />
-    <span class>Detain</span>
-    <div
+    <p>Detain</p>
+    <article
         class="bulletin"
         [style.visibility]="shouldShowBulletin ? 'visible' : 'hidden'"
         (mousedown)="onImgMouseDown($event)"
@@ -12,9 +12,9 @@
         id="bulletin"
     >
         Bulletin
-    </div>
-</div>
-<div class="table" (click)="onclick()" #dropzone>
+    </article>
+</section>
+<section class="table" #dropzone>
     <img
         class="paper"
         (mousedown)="onImgMouseDown($event)"
@@ -25,4 +25,4 @@
         [src]="paper.src"
         [class.touched]="touched"
     />
-</div>
+</section>

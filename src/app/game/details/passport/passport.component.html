@@ -1,40 +1,40 @@
-<div class="passport">
-    <div class="top">
+<article class="passport">
+    <section class="top">
         <div class="visa">
             <img *ngIf="isApproved()" class="approved" src="assets/approved.png" />
             <img *ngIf="isDenied()" class="denied" src="assets/denied.png" />
         </div>
-    </div>
+    </section>
     <hr />
-    <div class="bottom">
-        <div class="left">
+    <section class="bottom">
+        <section class="left">
             <svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 24 24">
                 <path
                     d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"
                 />
             </svg>
-            <div class="id">{{passport.getId()}}</div>
-        </div>
-        <div class="right">
+            <p class="id">{{passport.getId()}}</p>
+        </section>
+        <section class="right">
             <ul>
                 <li>
-                    <div class="title">Name</div>
-                    <div class="content">{{passport.getName()}}</div>
+                    <h5>Name</h5>
+                    <p>{{passport.getName()}}</p>
                 </li>
                 <li>
-                    <div class="title">Date of Birth</div>
-                    <div class="content">{{passport.getDateOfBirth() | date}}</div>
+                    <h5>Date of Birth</h5>
+                    <p>{{passport.getDateOfBirth() | date}}</p>
                 </li>
-                <li><span class="title">Sex</span><span class="content">&nbsp; {{passport.getSex()}}</span></li>
+                <li><h5 class="inline">Sex</h5><p class="inline">&nbsp; {{passport.getSex()}}</p></li>
                 <li>
-                    <div class="title">Nation</div>
-                    <div class="content">{{passport.getNation()}}</div>
+                    <h5>Nation</h5>
+                    <p>{{passport.getNation()}}</p>
                 </li>
                 <li>
-                    <div class="title">Expires</div>
-                    <div class="content">{{passport.getExpirationDate() | date}}</div>
+                    <h5>Expires</h5>
+                    <p>{{passport.getExpirationDate() | date}}</p>
                 </li>
             </ul>
-        </div>
-    </div>
-</div>
+        </section>
+    </section>
+</article>

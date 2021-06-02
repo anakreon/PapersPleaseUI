@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { GameLayoutComponent } from './game-layout/game-layout.component';
 import { QueueComponent } from './queue/queue.component';
@@ -15,6 +16,15 @@ import { UserModule } from '../user/user.module';
 
 @NgModule({
     declarations: [GameLayoutComponent, QueueComponent, DocumentsComponent, DayOverDialogComponent],
-    imports: [CommonModule, DetailsModule, MatGridListModule, MatIconModule, MatDialogModule, MatButtonModule, UserModule]
+    imports: [
+        CommonModule,
+        DetailsModule,
+        MatGridListModule,
+        MatIconModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatProgressSpinnerModule,
+        UserModule
+    ]
 })
 export class GameModule {}

@@ -1,5 +1,5 @@
-<div #dropzone class="table">
-    <div class="papers">
+<section #dropzone class="table">
+    <section class="papers">
         <app-passport
             *ngIf="isVisible('passport')"
             [style.top.px]="getTop('passport')"
@@ -73,6 +73,6 @@
             draggable="true"
             [bulletin]="bulletin"
         ></app-bulletin>
-    </div>
+    </section>
     <app-icon-drawer (onApprove)="approve()" (onDeny)="deny()"></app-icon-drawer>
-</div>
+</section>

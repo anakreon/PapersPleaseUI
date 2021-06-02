@@ -11,12 +11,12 @@ import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { LayoutComponent } from './layout/layout.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { GameModule } from './game/game.module';
 
 @NgModule({
-    declarations: [AppComponent, NavbarComponent],
+    declarations: [AppComponent, LayoutComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

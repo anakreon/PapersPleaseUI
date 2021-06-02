@@ -1,27 +1,27 @@
-<div class="grant-of-asylum">
+<article class="grant-of-asylum">
     <fieldset>
         <legend>{{grant.getNation()}}</legend>
-        <div class="header">Grant of Asylum</div>
+        <section class="header">Grant of Asylum</section>
         <p>This document grants conditional asylum status</p>
-        <div class="content">
-            <div class="left">
+        <section class="content">
+            <section class="left">
                 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
                     <path
                         d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"
                     />
                 </svg>
-            </div>
-            <div class="right">
+            </section>
+            <section class="right">
                 <ul>
-                    <li><span class="title">Name:</span><span class="content">{{grant.getName()}}</span></li>
-                    <li><span class="title">Id#:</span><span class="content">{{grant.getId()}}</span></li>
-                    <li><span class="title">DOB:</span><span class="content">{{grant.getDateOfBirth() | date}}</span></li>
-                    <li><span class="title">Height:</span><span class="content">{{grant.getHeight()}}</span></li>
-                    <li><span class="title">Weight:</span><span class="content">{{grant.getWeight()}}</span></li>
-                    <li><span class="title">Expires:</span><span class="content">{{grant.getExpirationDate() | date}}</span></li>
+                    <li><h5>Name:</h5><p>{{grant.getName()}}</p></li>
+                    <li><h5>Id#:</h5><p>{{grant.getId()}}</p></li>
+                    <li><h5>DOB:</h5><p>{{grant.getDateOfBirth() | date}}</p></li>
+                    <li><h5>Height:</h5><p>{{grant.getHeight()}}</p></li>
+                    <li><h5>Weight:</h5><p>{{grant.getWeight()}}</p></li>
+                    <li><h5>Expires:</h5><p>{{grant.getExpirationDate() | date}}</p></li>
                 </ul>
-            </div>
-        </div>
+            </section>
+        </section>
         <img class="seal" src="assets/seal3.png" />
     </fieldset>
-</div>
+</article>

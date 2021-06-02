@@ -1,45 +1,45 @@
-<div class="access-permit">
+<article class="access-permit">
     <fieldset>
         <legend>{{permit.getNation()}}</legend>
-        <div class="header">Access Permit</div>
-        <div class="content">
+        <section class="header">Access Permit</section>
+        <section class="content">
             <ul>
                 <li>
-                    <div class="title">Name</div>
-                    <div class="content">{{permit.getName()}}</div>
+                    <h5>Name</h5>
+                    <p>{{permit.getName()}}</p>
                 </li>
                 <li>
-                    <div class="title">Id</div>
-                    <div class="content">{{permit.getId()}}</div>
+                    <h5>Id</h5>
+                    <p>{{permit.getId()}}</p>
                 </li>
                 <li>
-                    <div class="title">Nation</div>
-                    <div class="content">{{permit.getNation()}}</div>
+                    <h5>Nation</h5>
+                    <p>{{permit.getNation()}}</p>
                 </li>
                 <li>
-                    <div class="title">Purpose</div>
-                    <div class="content">{{permit.getPurpose()}}</div>
+                    <h5>Purpose</h5>
+                    <p>{{permit.getPurpose()}}</p>
                 </li>
                 <li>
-                    <div class="title">Duration</div>
-                    <div class="content">{{permit.getDuration()}}</div>
+                    <h5>Duration</h5>
+                    <p>{{permit.getDuration()}}</p>
                 </li>
                 <li class="double-li">
                     <div>
-                        <div class="title">Height</div>
-                        <div class="content">{{permit.getHeight()}}</div>
+                        <h5>Height</h5>
+                        <p>{{permit.getHeight()}}</p>
                     </div>
                     <div>
-                        <div class="title">Weight</div>
-                        <div class="content">{{permit.getWeight()}}</div>
+                        <h5>Weight</h5>
+                        <p>{{permit.getWeight()}}</p>
                     </div>
                 </li>
                 <li>
-                    <div class="title">Expires</div>
-                    <div class="content">{{permit.getExpirationDate() | date}}</div>
+                    <h5>Expires</h5>
+                    <p>{{permit.getExpirationDate() | date}}</p>
                 </li>
             </ul>
-        </div>
+        </section>
         <img class="seal" src="assets/seal2.png" />
     </fieldset>
-</div>
+</article>

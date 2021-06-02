@@ -76,10 +76,14 @@
                     margin-bottom: 2px;
                 }
             }
-            .title {
+            h5 {
+                font-size: 14px;
                 font-weight: bold;
             }
-            .content {
+            .inline {
+                display: inline-block;
+            }
+            p {
                 margin-top: -5px;
                 white-space: nowrap;
             }

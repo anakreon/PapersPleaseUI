@@ -46,6 +46,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.approvalDecisionSubscription.unsubscribe();
     }
     private resetLocals(): void {
+        this.touched = false;
         this.paperDragListeners = {};
         this.entrantPapers = [];
     }
@@ -109,18 +110,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
             event.preventDefault();
             event.dataTransfer.dropEffect = 'link';
         }
-    }
-
-    public onclick(): void {
-        
-        //this.isEntrantVisible = !this.isEntrantVisible;
-        /*const keys = Object.keys(papers);
-        const paper = {
-            id: keys[this.paper],
-            ...papers[keys[this.paper]]
-        };
-        this.pushToTheMiddle(paper);
-        this.paper++;*/
     }
 
     private putPaperOnTable(paper: string): void {

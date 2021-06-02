@@ -7,11 +7,11 @@ import { GameUserService } from '../game/game-user.service';
 import { User } from '../user/user.types';
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.scss']
+    selector: 'app-layout',
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss']
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit, OnDestroy {
     private username: string;
     private subscription: Subscription;
 
@@ -41,6 +41,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     public logout(): void {
         this.gameUserService.setUser(null);
-        this.router.navigate(['game']);
+        this.router.navigate(['dashboard']);
     }
 }

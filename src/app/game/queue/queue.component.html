@@ -1,12 +1,18 @@
-<div class="wrapper">
+<section class="wrapper">
     <div #divider class="vertical-divider"></div>
-    <div class="speakers" (click)="callForRoundStart()">
+    <section class="speakers" (click)="callForRoundStart()">
         <mat-icon class="speaker reverse" aria-hidden="false" aria-label="campaign">campaign</mat-icon>
         <mat-icon class="speaker" aria-hidden="false" aria-label="campaign">campaign</mat-icon>
-    </div>
-    <div class="date">November 22, 1982</div>
+    </section>
+    <p class="date">November 22, 1982</p>
+    <mat-progress-spinner
+        class="spinner"
+        color="primary"
+        mode="determinate"
+        [value]="spinnerValue">
+    </mat-progress-spinner>
     <mat-icon class="multiple_stop" aria-hidden="false" aria-label="multiple_stop">multiple_stop</mat-icon>
-    <div class="people" #queue>
+    <section class="people" #queue>
         <div class="peopleA"></div>
         <div class="peopleB"></div>
         <div class="peopleA"></div>
@@ -22,6 +28,6 @@
         <div class="peopleA"></div>
         <div #last class="last"></div>
         <div #person class="person"></div>
-    </div>
+    </section>
     <mat-icon class="store_mall_directory" aria-hidden="false" aria-label="store_mall_directory">store_mall_directory</mat-icon>
-</div>
+</section>

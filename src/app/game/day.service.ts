@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { BulletinService } from './bulletin.service';
 import { RoundService } from './round.service';
 
@@ -11,12 +11,14 @@ export class DayService {
     private roundTimeLimitMs = 1 * 60 * 1000;
     private roundStartSubject: Subject<void>;
     private roundEndRequestSubject: Subject<void>;
+    private timeRemainingPct: Subject<number>;
     private roundInProgress: boolean;
     private isTimedOut: boolean;
 
     constructor(private bulletinService: BulletinService, private roundService: RoundService) {
         this.roundStartSubject = new Subject();
         this.roundEndRequestSubject = new Subject();
+        this.timeRemainingPct = new Subject();
     }
 
     public async startDay(): Promise<void> {
@@ -32,6 +34,7 @@ export class DayService {
         return new Promise<void>(async (resolve) => {
             const roundSubscription = this.startRound();
             const intervalId = setInterval(() => {
+                this.timeRemainingPct.next(this.getTimerRemainingPct());
                 console.log('checking');
                 if (!this.isWithinTimeLimit()) {
                     console.log('timed out');
@@ -69,8 +72,14 @@ export class DayService {
         this.bulletinService.generateBulletin();
     }
 
-    public getTimerRemainingMs(): number {
+    private getTimerRemainingMs(): number {
         return this.roundTimeLimitMs - (new Date().getTime() - this.timerBaseTime);
+    }
+    private getTimerRemainingPct(): number {
+        return this.getTimerRemainingMs() / this.roundTimeLimitMs * 100;
+    }
+    public getTimerRemainingPctObservable(): Observable<number> {
+        return this.timeRemainingPct.asObservable();
     }
     private startTimer(): void {
         this.timerBaseTime = new Date().getTime();

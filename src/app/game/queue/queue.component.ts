@@ -1,4 +1,5 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DayService } from '../day.service';
 import { RoundService } from '../round.service';
 
@@ -7,21 +8,34 @@ import { RoundService } from '../round.service';
     templateUrl: './queue.component.html',
     styleUrls: ['./queue.component.scss']
 })
-export class QueueComponent implements AfterViewChecked, AfterViewInit {
+export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, OnDestroy {
     @ViewChild('person') person: ElementRef;
     @ViewChild('last') last: ElementRef;
     @ViewChild('divider') divider: ElementRef;
     @ViewChild('queue') queue: ElementRef;
 
+    private walkerSubscription: Subscription;
+    private spinnerSubscription: Subscription;
+    public spinnerValue = 0;
     private moveSpeed = 9;
     private dividerPosition = 1;
     private queuePosition = 0;
     private people: ElementRef[];
 
-    constructor(private renderer: Renderer2, private dayService: DayService, private roundService: RoundService) {
-        this.roundService.getWalkerSubscription().subscribe(() => {
+    constructor(private renderer: Renderer2, private dayService: DayService, private roundService: RoundService) {}
+
+    ngOnInit(): void {
+        this.walkerSubscription = this.roundService.getWalkerSubscription().subscribe(() => {
             this.requestAnotherPerson();
         });
+        this.spinnerSubscription = this.dayService.getTimerRemainingPctObservable().subscribe((remainingPct: number) => {
+            this.spinnerValue = 100 - remainingPct;
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.walkerSubscription.unsubscribe();
+        this.spinnerSubscription.unsubscribe();
     }
 
     public ngAfterViewInit(): void {

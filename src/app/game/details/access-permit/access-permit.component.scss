@@ -32,12 +32,14 @@
                 display: flex;
                 justify-content: space-between;
             }
-        }
-        .title {
-            font-weight: bold;
-        }
-        .content {
-            margin-top: -5px;
+            h5 {
+                font-size: 14px;
+                font-weight: bold;
+            }
+            p {
+                margin-top: -5px;
+                white-space: nowrap;
+            }
         }
     }
     

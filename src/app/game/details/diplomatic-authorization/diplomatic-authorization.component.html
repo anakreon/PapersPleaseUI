@@ -1,16 +1,16 @@
-<div class="diplomatic-authorization">
+<article class="diplomatic-authorization">
     <div class="border-wrapper">
-        <div class="header">
+        <section class="header">
             Diplomatic<br />
             Authorization
-        </div>
-        <div class="content">
-            Agent: <div class="main-text">{{authorization.getName()}}</div>
-            ID#: <div class="main-text">{{authorization.getId()}}</div>
-            Nation: <div class="main-text">{{authorization.getNation()}}</div>
+        </section>
+        <section class="content">
+            Agent: <p class="main-text">{{authorization.getName()}}</p>
+            ID#: <p class="main-text">{{authorization.getId()}}</p>
+            Nation: <p class="main-text">{{authorization.getNation()}}</p>
             Unconditional access to all named members must be granted upon presentation.
-            <p>{{access.join(', ')}}</p>
-            <div class="disclaimer">This document has no expiry.</div>
-        </div>
+            <p class="access">{{access.join(', ')}}</p>
+            <p class="disclaimer">This document has no expiry.</p>
+        </section>
     </div>
-</div>
+</article>

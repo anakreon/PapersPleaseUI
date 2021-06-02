@@ -1,13 +1,13 @@
-<div class="certificate-of-vaccination">
+<article class="certificate-of-vaccination">
     <fieldset>
-        <div class="header">
+        <section class="header">
             Certificate<br />
             <span class="small">-of-</span><br />
             Vaccination
-        </div>
-        <div class="content">
-            <div class="main-text">{{certificate.getName()}}</div>
-            <div class="main-text">ID#: {{certificate.getId()}}</div>
+        </section>
+        <section class="content">
+            <p class="main-text">{{certificate.getName()}}</p>
+            <p class="main-text">ID#: {{certificate.getId()}}</p>
             <hr />
             <table>
                 <tr>
@@ -17,8 +17,8 @@
                     <td>{{vaccine}}</td>
                 </tr>
             </table>
-            <div class="disclaimer">Max Valid for 3 years</div>
-        </div>
+            <p class="disclaimer">Max Valid for 3 years</p>
+        </section>
         <img class="seal" src="assets/seal1.png" />
     </fieldset>
-</div>
+</article>
