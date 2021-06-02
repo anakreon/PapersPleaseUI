@@ -15,6 +15,8 @@ import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { GameModule } from './game/game.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
     declarations: [AppComponent, LayoutComponent],
@@ -30,7 +32,13 @@ import { GameModule } from './game/game.module';
         MatListModule,
         MatSnackBarModule,
         DashboardModule,
-        GameModule
+        GameModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+          enabled: environment.production,
+          // Register the ServiceWorker as soon as the app is stable
+          // or after 30 seconds (whichever comes first).
+          registrationStrategy: 'registerWhenStable:30000'
+        })
     ],
     providers: [],
     bootstrap: [AppComponent]
