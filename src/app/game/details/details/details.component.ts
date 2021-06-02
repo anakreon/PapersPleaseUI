@@ -5,6 +5,7 @@ import { BulletinService } from '../../bulletin.service';
 import { EntrantService } from '../../entrant.service';
 import { DRAG_CHANNEL } from '../../enums';
 import { RoundService } from '../../round.service';
+import { IconDrawerComponent } from '../icon-drawer/icon-drawer.component';
 import { PassportStatus } from '../passport/passport.component';
 
 interface Position {
@@ -14,32 +15,32 @@ interface Position {
 
 const sizes = {
     passport: {
-        width: 215,
-        height: 300
+        width: 225,
+        height: 310
     },
     idcard: {
-        width: 300,
-        height: 200
+        width: 310,
+        height: 210
     },
     permit: {
-        width: 150,
-        height: 330
+        width: 160,
+        height: 340
     },
     workpass: {
-        width: 150,
-        height: 250
+        width: 160,
+        height: 260
     },
     grant: {
-        width: 250,
-        height: 250
+        width: 260,
+        height: 260
     },
     certificate: {
-        width: 200,
-        height: 250
+        width: 210,
+        height: 260
     },
     authorization: {
-        width: 200,
-        height: 300
+        width: 210,
+        height: 310
     },
     bulletin: {
         width: 263,
@@ -65,9 +66,14 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     public papers: Papers;
     public bulletin: string;
 
-    constructor(private roundService: RoundService, private entrantService: EntrantService, private bulletinService: BulletinService) {}
+    constructor(
+        private roundService: RoundService,
+        private entrantService: EntrantService,
+        private bulletinService: BulletinService
+    ) {}
 
     ngOnInit(): void {
+        console.log('initing');
         this.boothArrivalSubscription = this.roundService.getArrivedAtBooth().subscribe(() => {
             this.resetPassportStatus();
         });
@@ -110,7 +116,6 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
             console.log(this.coordinates[target]);
             this.dragStartCoords = null;
         } else if (channel === DRAG_CHANNEL.INSPECT_PAPER) {
-            console.log('droppping', target);
             const mousePosition = this.getRelativeMousePosition(event);
             this.coordinates[target] = this.getElementPositionWithinBounds(event, target, mousePosition);
         }
@@ -142,7 +147,6 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private getRelativeMousePosition(event): Position {
-        console.log(event);
         if (!this.boundingRect) {
             this.boundingRect = event.target.getBoundingClientRect();
         }
@@ -172,10 +176,8 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         };
     }
     public onDragEnd(event): void {
-        console.log('dragend', event, event.dataTransfer.dropEffect);
         const { target } = JSON.parse(event.dataTransfer.getData('text/plain'));
         if (event.dataTransfer.dropEffect === 'link') {
-            console.log('removing', target);
             this.coordinates[target] = null;
         }
     }
@@ -189,24 +191,25 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public deny(): void {
-        if (this.isPassportAligned([340, 420], [60, 110])) {
+        if (this.isPassportAligned([440, 310], [60, 110])) {
             this.passportStatus = 'Denied';
-            console.log('denying');
         }
     }
     public approve(): void {
-        if (this.isPassportAligned([510, 570], [60, 110])) {
+        if (this.isPassportAligned([270, 200], [60, 110])) {
             this.passportStatus = 'Approved';
-            console.log('approving');
         }
     }
-    private isPassportAligned(xRange, yRange): boolean {
+    private isPassportAligned(rightRange, topRange): boolean {
+        const rightBorder = this.dropzone.nativeElement.clientWidth;
+        console.log('left', this.coordinates['passport'].left, (rightBorder - rightRange[0]), (rightBorder - rightRange[1]));
+        console.log('top', this.coordinates['passport'].top, topRange[0], topRange[1]);
         return (
             this.coordinates['passport'] &&
-            this.coordinates['passport'].left > xRange[0] &&
-            this.coordinates['passport'].left < xRange[1] &&
-            this.coordinates['passport'].top > yRange[0] &&
-            this.coordinates['passport'].top < yRange[1]
+            this.coordinates['passport'].left > (rightBorder - rightRange[0]) &&
+            this.coordinates['passport'].left < (rightBorder - rightRange[1]) &&
+            this.coordinates['passport'].top > topRange[0] &&
+            this.coordinates['passport'].top < topRange[1]
         );
     }
 }

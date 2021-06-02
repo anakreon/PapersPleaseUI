@@ -25,7 +25,6 @@ export class GameLayoutComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.gameService.startGame();
         this.subscription = this.gameService.getDailyReport().subscribe(() => {
-            console.log('getting daily report')
             this.openDayEndDialog();
         });
     }

@@ -86,14 +86,13 @@ export class PaperGeneratorService {
     }
 
     public generatePapers(): InputPapers {
-        return this.generatDetainPapers();
-        /*if (this.tossCoin()) {
+        if (this.tossCoin()) {
             return this.generateValidPapers();
         } else if (this.tossCoin() && this.tossCoin()) {
             return this.generatDetainPapers();
         } else {
             return this.generateInvalidPapers();
-        }*/
+        }
     }
 
     private tossCoin(): boolean {
@@ -272,53 +271,6 @@ export class PaperGeneratorService {
         return papers;
     }
 
-    /*private doStuff(): InputPapers {
-        if (this.tossCoin()) {
-            this.generateValidPapers();
-        } else if (this.tossCoin() && this.tossCoin()) {
-            this.generatDetainPapers();
-        } else {
-            this.generateInvalidPapers();
-        }
-        return {
-            passport: this.buildPassport(
-                'GC07D-FU8AR',
-                'Arstotzka',
-                'Guyovich, Russian',
-                '1933.11.28',
-                'M',
-                'East Grestin',
-                '1981.07.10'
-            ),
-            access_permit: this.buildAccessPermit(
-                'GXXXX-FU8AR',
-                'Arstotzka',
-                'Guyovich, Russian',
-                'Fun',
-                '3 days',
-                '154cm',
-                '75kg',
-                '1981.2.25'
-            ),
-            ID_card: this.buildID_card('Guyovich, Russian', '154cm', '75kg'),
-            work_pass: this.buildWorkPass(),
-            grant_of_asylum: this.buildGrantOfAsylum(
-                'GC07D-FU8AR',
-                'Arstotzka',
-                'Guyovich, Russian',
-                '1981.2.25',
-                '1933.11.28',
-                '154cm',
-                '75kg'
-            ),
-            certificate_of_vaccination: this.buildCertificateOfVaccination(
-                'GXXXX-FU8AR',
-                'Guyovich, Russian',
-                'Smallpox, Covid-19, Rubella'
-            ),
-            diplomatic_authorization: this.buildDiplomaticAuthorization('GC07D-FU8AR', 'Arstotzka, Antegria, Impor', 'Guyovich, Russian', 'Arstotzka', '1981.2.25')
-        };*/
-
     private buildPassport({
         id,
         nation,
@@ -456,41 +408,3 @@ export class PaperGeneratorService {
     }
 }
 
-/*
-{
-            passport: `ID#: GC07D-FU8AR
-                NATION: Arstotzka
-                NAME: Guyovich, Russian
-                DOB: 1933.11.28
-                SEX: M
-                ISS: East Grestin
-                EXP: 1981.07.10`,
-            access_permit: `ID#: GXXXX-FU8AR
-                NATION: Arstotzka
-                NAME: Guyovich, Russian
-                PURPOSE: Fun
-                DURATION: 3 days
-                HEIGHT: 154cm
-                WEIGHT: 75kg
-                EXP: 1981.2.25`,
-            ID_card: `NAME: Guyovich, Russian
-                HEIGHT: 154cm
-                WEIGHT: 75kg`,
-            work_pass: ``,
-            grant_of_asylum: `ID#: GC07D-FU8AR
-                NATION: Arstotzka
-                NAME: Guyovich, Russian
-                EXP: 1981.2.25
-                DOB: 1933.11.28
-                HEIGHT: 154cm
-                WEIGHT: 75kg`,
-            certificate_of_vaccination: `ID#: GXXXX-FU8AR
-                NAME: Guyovich, Russian
-                VACCINES: Smallpox, Covid-19, Rubella`,
-            diplomatic_authorization: `ID#: GC07D-FU8AR
-                ACCESS: Arstotzka, Antegria, Impor
-                NAME: Guyovich, Russian
-                NATION: Arstotzka
-                EXP: 1981.2.25`
-        }
-        */

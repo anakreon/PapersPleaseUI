@@ -25,7 +25,6 @@ export class EntrantService {
 
     public generateEntrant(): InputPapers {
         const entrant = this.getEntrant();
-        console.log('e', entrant);
         this.entrantWaiting.next(entrant);
         return entrant;
     }

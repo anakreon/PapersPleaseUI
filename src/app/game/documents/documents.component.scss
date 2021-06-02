@@ -23,7 +23,7 @@
 }
 
 .entrant {
-    width: 42%;
+    width: 28vh;
 }
 
 img.paper {
@@ -74,5 +74,21 @@ img.paper {
         text-decoration: underline;
         font-style: italic;
         border-radius: 3px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .buttonwrapper .bulletin {
+        width: 85px;
+        height: 30px;
+        font-size: 16px;
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    .buttonwrapper .bulletin {
+        width: 120px;
+        height: 35px;
+        font-size: 18px;
     }
 }

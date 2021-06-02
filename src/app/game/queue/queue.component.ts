@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DayService } from '../day.service';
 import { RoundService } from '../round.service';
@@ -13,16 +13,22 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
     @ViewChild('last') last: ElementRef;
     @ViewChild('divider') divider: ElementRef;
     @ViewChild('queue') queue: ElementRef;
+    @ViewChild('wrapper') wrapper: ElementRef;
+    @ViewChild('refPerson') refPerson: ElementRef;
 
     private walkerSubscription: Subscription;
     private spinnerSubscription: Subscription;
     public spinnerValue = 0;
     private moveSpeed = 9;
     private dividerPosition = 1;
-    private queuePosition = 0;
     private people: ElementRef[];
 
     constructor(private renderer: Renderer2, private dayService: DayService, private roundService: RoundService) {}
+
+    @HostListener('window:resize', ['$event'])
+    public onResize(event): void {
+        this.initializePersonPosition();
+    }
 
     ngOnInit(): void {
         this.walkerSubscription = this.roundService.getWalkerSubscription().subscribe(() => {
@@ -40,11 +46,15 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
 
     public ngAfterViewInit(): void {
         this.people = [this.person, this.last];
+        this.initializePersonPosition();
+    }
+
+    private initializePersonPosition(): void {
+        this.renderer.setStyle(this.person.nativeElement, 'left', this.last.nativeElement.offsetLeft + 30 + 'px');
     }
 
     public ngAfterViewChecked(): void {
-        this.dividerPosition = this.divider.nativeElement.offsetLeft;
-        this.queuePosition = this.queue.nativeElement.offsetLeft + this.queue.nativeElement.clientWidth;
+        this.dividerPosition = this.wrapper.nativeElement.clientWidth / 2;
     }
 
     public callForRoundStart(): void {
@@ -67,7 +77,6 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
         this.renderer.setStyle(personNative, 'transform', 'scaleX(1)');
         personPosition = personPosition + direction * this.moveSpeed;
         if (personPosition + 20 > this.dividerPosition) {
-            //arrived at booth
             this.roundService.arrivedAtBooth();
             const subscription = this.roundService.getWalkFinishSubscription().subscribe((result) => {
                 if (result === 'continue') {
@@ -75,24 +84,10 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
                 } else if (result === 'return') {
                     this.walkBackFromBooth(person, personPosition, stepNum, -1);
                 } else {
-                    console.log('detained');
                     this.walkDownToBooth(person, person.nativeElement.offsetTop, stepNum, direction);
                 }
                 subscription.unsubscribe();
             });
-            /*this.gameService.applyEntrant();
-            const subscription = this.gameService.getApprovalResult().subscribe((result) => {
-                if (result === 'approved') {
-                    this.walkPastBooth(person, personPosition, stepNum, direction);
-                } else {
-                    this.walkBackFromBooth(person, personPosition, stepNum, -1);
-                }
-                subscription.unsubscribe();
-            });/
-            /*setTimeout(() => {
-                //this.walkPastBooth(person, personPosition, stepNum, direction);
-                this.walkBackFromBooth(person, personPosition, stepNum, -1);
-            }, 3000);*/
             return;
         }
         this.renderer.setStyle(personNative, 'left', personPosition + 'px');
@@ -107,7 +102,6 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
         this.renderer.setStyle(personNative, 'background-position', -33.5 * stepNum + 'px');
         personPosition = personPosition + direction * this.moveSpeed;
         if (personPosition + 20 > this.dividerPosition * 2 + 50) {
-            //arrived at the end
             this.dayService.callForRoundEnd();
             return;
         }
@@ -124,7 +118,6 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
         this.renderer.setStyle(personNative, 'transform', 'scaleX(-1)');
         personPosition = personPosition + direction * this.moveSpeed;
         if (personPosition < -40) {
-            //returned back
             this.dayService.callForRoundEnd();
             return;
         }
@@ -138,10 +131,9 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
     private walkDownToBooth(person: ElementRef, personPosition: number, stepNum: number, direction: number): void {
         const personNative = person.nativeElement;
         this.renderer.setStyle(personNative, 'background-position', -33.5 * stepNum + 'px');
-        //this.renderer.setStyle(personNative, 'transform', 'rotateZ(90deg)');
         personPosition = personPosition + direction * this.moveSpeed;
-        if (personPosition > 335) {
-            //returned back
+        const personHeight = 60;
+        if (personPosition > this.wrapper.nativeElement.clientHeight - 60) {
             this.dayService.callForRoundEnd();
             return;
         }
@@ -153,7 +145,7 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
     }
 
     private resetPosition(person: ElementRef): void {
-        this.renderer.setStyle(person.nativeElement, 'left', this.queuePosition + 'px');
-        this.renderer.setStyle(person.nativeElement, 'top', this.queue.nativeElement.offsetTop + 'px');
+        this.renderer.setStyle(person.nativeElement, 'left', this.refPerson.nativeElement.offsetLeft + 30 + 'px');
+        this.renderer.setStyle(person.nativeElement, 'top', this.refPerson.nativeElement.offsetTop + 'px');
     }
 }

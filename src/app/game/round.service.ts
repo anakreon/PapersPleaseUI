@@ -32,7 +32,6 @@ export class RoundService {
         await this.walkFromQueueToBorder();
         const entrant = this.generateEntrant();
         const approvalDecision = await this.getApprovalOrDenial();
-        console.log('approvalDecision', approvalDecision);
         let approvalResult: APPROVAL_RESULT;
         if (approvalDecision === 'approve') {
             this.continueWalking();
@@ -86,7 +85,6 @@ export class RoundService {
     }
 
     public makeDetainDecision(): void {
-        console.log('detain decision');
         this.approveDecisionSubject.next('detain');
     }
 
@@ -137,11 +135,4 @@ export class RoundService {
             this.scoreService.decrease();
         }
     }
-    /*
-    startRound()
-    - walk from queue to border
-    - (generate entrant &) show entrant & documents
-    - wait for approval / rejection
-    - walk from border forwards / backwards
-    - (evaluate selection &) add / remove score */
 }

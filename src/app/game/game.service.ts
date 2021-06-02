@@ -41,13 +41,10 @@ export class GameService {
         await this.startDay();
         this.showDailyReport();
         if (this.scoreIsNegative()) {
-            console.log('reject');
             return Promise.reject();
         } else {
             const shouldContinue = await this.shouldContinue();
-            console.log('shouldcontinue?');
             if (shouldContinue) {
-                console.log('shouldcontinue');
                 await this.startGameLoop();
             }
         }
@@ -58,7 +55,6 @@ export class GameService {
     }
 
     private showDailyReport(): void {
-        console.log('showDailyReport')
         this.dailyReportSubject.next();
     }
 

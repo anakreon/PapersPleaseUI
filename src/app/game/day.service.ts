@@ -22,25 +22,19 @@ export class DayService {
     }
 
     public async startDay(): Promise<void> {
-        console.log('start day');
         this.generateNewBulletin();
         this.startTimer();
         await this.startRounds();
-        console.log('ending rounds');
     }
 
     private async startRounds(): Promise<void> {
-        console.log('starting rounds');
         return new Promise<void>(async (resolve) => {
             const roundSubscription = this.startRound();
             const intervalId = setInterval(() => {
                 this.timeRemainingPct.next(this.getTimerRemainingPct());
-                console.log('checking');
                 if (!this.isWithinTimeLimit()) {
-                    console.log('timed out');
                     this.isTimedOut = true;
                     if (!this.roundInProgress) {
-                        console.log('stopping round');
                         roundSubscription.unsubscribe();
                         clearInterval(intervalId);
                         resolve();

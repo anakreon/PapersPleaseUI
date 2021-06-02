@@ -29,7 +29,6 @@ export class IconDrawerComponent implements OnInit {
             this.approveStamping = false;
             this.onApprove.emit();
         }, 1000);
-        console.log('approved');
     }
     public deny(): void {
         this.denyStamping = true;
@@ -37,6 +36,5 @@ export class IconDrawerComponent implements OnInit {
             this.denyStamping = false;
             this.onDeny.emit();
         }, 1000);
-        console.log('denied');
     }
 }

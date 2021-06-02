@@ -10,7 +10,9 @@ section {
 }
 
 mat-grid-list {
-    width: 60%;
+    max-width: 90%;
+    width: 2000px;
+    min-width: 800px;
 }
 
 mat-grid-tile {

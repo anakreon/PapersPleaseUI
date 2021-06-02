@@ -31,7 +31,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit(): void {
         this.papersInterpretedSubscription = this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
-            console.log(papers);
             this.resetLocals();
             this.isEntrantVisible = true;
             this.putPapersOnTable(papers);
@@ -103,7 +102,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private dragoverHandler(event): void {
-        console.log(event.dataTransfer.getData('text/plain'));
         const data = event.dataTransfer.getData('text/plain');
         const { channel } = JSON.parse(data);
         if (channel === DRAG_CHANNEL.MOVE_PAPER) {
@@ -135,17 +133,13 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
         event.stopPropagation();
         const id = event.target.id;
         if (!this.paperDragListeners[id]) {
-            console.log('registering');
             this.paperDragListeners[id] = true;
             event.target.addEventListener('dragstart', this.documentDragstartHandler.bind(this));
             event.target.addEventListener('dragend', this.documentDragendHandler.bind(this));
         }
-
-        console.log(event.target.id);
     }
 
     private documentDragstartHandler(event): void {
-        console.log('dragging', event.target.id);
         event.dataTransfer.setData(
             'text/plain',
             JSON.stringify({ channel: DRAG_CHANNEL.INSPECT_PAPER, target: event.target.id })
@@ -153,23 +147,18 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private documentDragendHandler(event): void {
-        console.log('dragend');
         const { channel, target } = JSON.parse(event.dataTransfer.getData('text/plain'));
         if (channel === DRAG_CHANNEL.INSPECT_PAPER && event.dataTransfer.dropEffect !== 'none') {
             if (target === 'bulletin') {
-                console.log('target is:', target);
                 this.shouldShowBulletin = false;
             } else {
                 this.removePaperByKey(target);
                 this.paperDragListeners[target] = false;
             }
-            console.log(channel, event.dataTransfer.dropEffect);
         }
     }
 
     private maybeEndInteraction(passportStatus: PassportStatus): void {
-        console.log('allDocumentsAreOnTable', this.allDocumentsAreOnTable());
-        console.log('madeApprovalDecision', this.madeApprovalDecision(passportStatus), passportStatus);
         if (this.allDocumentsAreOnTable() && this.madeApprovalDecision(passportStatus)) {
             if (passportStatus === 'Approved') {
                 this.roundService.makeApproveDecision();
