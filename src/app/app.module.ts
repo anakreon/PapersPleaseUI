@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,15 +18,17 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { GameModule } from './game/game.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { HowToPlayComponent } from './how-to-play/how-to-play.component';
 
 @NgModule({
-    declarations: [AppComponent, LayoutComponent],
+    declarations: [AppComponent, LayoutComponent, HowToPlayComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         MatIconModule,
         MatToolbarModule,
+        MatDialogModule,
         LayoutModule,
         MatButtonModule,
         MatSidenavModule,

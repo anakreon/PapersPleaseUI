@@ -1,0 +1,62 @@
+Background
+You are an immigration officer at a border checkpoint. Your job is to inspect papers of entrants and decide if they should be approved to enter your glorious country Arstotzka, denied the entry, or detained for falsifying their documents.
+
+Layout
+The top header section
+- use the hamburger menu to show these instructions or logout
+- use the violet sound controls to play / pause the background music
+- username is printed on the right side
+
+The dashboard section:
+- shows a list of previously saved users and their score (local storage)
+    - allows to delete each record by clicking on the red 'bin' icon next to it
+- allows to create a new user through the input field
+
+The game section consists of 4 quadrants:
+- upper left - Queue of entrants who wait for their turn to be inspected
+- (upper mid) - Border between foreign country and Arstotzka. Has the 'megaphone' icon to call the next entrant.
+- upper right - Land of Arstotzka, UI shows current date and elapsed/remaining time for the day
+- bottom left - Inspection window with current 'bulletin' and the 'detain' button
+- bottom right - Inspection desk with approval/denial stamps
+
+Game
+1. In the dashboard section, choose on of the following:
+a) Pick from a list of existing users
+    - click on the user to select
+b) Create a new user by typing in a username in the form
+    - type username in the input field
+    - confirm with 'enter' key
+
+2. In the game section:
+    Start by reading the 'bulletin' document, it is the base for your inspection and contains all the current rules of entry.
+    - read the 'bulletin' by drag & dropping it from the inspection window to the inspection desk
+    - (optionally) put it back by drag & dropping from the inspection desk back to the inspection window
+
+    1) Click the 'megaphone' icon to request a next entrant.
+    2) (Wait for the entrant to arrive at the booth)
+    3) Inspect papers presented by the entrant
+        - to see the details of each document, drag & drop it from the inspection window to the inspection desk
+        - to return papers back to the entrant, drag & drop it back from the inspection desk to the inspection window
+    4) Decide if entrant should be:
+        a) 'Approved' to enter the country, acknowledging that:
+            - entrant has all the required papers (as per the bulletin)
+            - entrant comes from an accepted country (as per the bulletin)
+            - there is no discrepancy in any of the papers
+            - none of the required papers are expired (see today's date in the Arstotzka quadrant)
+        b) 'Denied' to enter the country on the basis of at least one of the following:
+            - entrant comes from a denied country (as per the bulletin)
+            - entrant is missing some of the required papers (as per the bulletin)
+            - some of the required papers are expired
+        c) 'Detained' by the police on the basis of at least one of the following:
+            - there are discrepancies between the papers - different papers show different IDs, names, nations, weight or height
+    5a) If the decision is 'Approved' or 'Rejected'
+        - drag & drop entrant's passport to the inspection desk
+        - bring in 'approved' & 'denied' stamps by clicking the white arrow
+        - align the passport's 'ENTRY VISA' section with one of the stamps
+        - click on the stamp to stamp the passport - if well aligned, passport should show the resulting stamp
+        - drag & drop all the documents from the inspection desk back to the inspection window to give back to the entrant
+    5b) If the decision is 'Detain'
+        - click the red 'Detain' button in the inspection window
+    6) Call the next entrant (go back to point 1)
+
+    You can see the blue timer in the Arstotzka quadrant. This shows the remaining / elapsed time of the current day. At the end of each day, you will see your score based on your performance. You will get 10 points for every correct decision. You will get -10 points for every wrong decision. However, you will get -20 points if you 'approve' an entrant who should have been 'detained'. If your score is less than 0, the game ends. If your score is more or equal to 0, you can either a) continue the game (reset the timer), b) save the game and end.
