@@ -7,7 +7,7 @@ export class BgmService {
     private bgm: HTMLAudioElement;
     private isBgmPlaying = false;
     constructor() {
-        this.bgm = new Audio('assets/bgm.mp3');
+        this.bgm = new Audio('./assets/bgm.mp3');
         this.bgm.volume = 0.2;
         this.bgm.loop = true;
     }

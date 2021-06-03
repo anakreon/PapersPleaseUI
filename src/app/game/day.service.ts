@@ -8,7 +8,7 @@ import { RoundService } from './round.service';
 })
 export class DayService {
     private timerBaseTime: number;
-    private roundTimeLimitMs = 1 * 60 * 1000;
+    private roundTimeLimitMs = 3 * 60 * 1000;
     private roundStartSubject: Subject<void>;
     private roundEndRequestSubject: Subject<void>;
     private timeRemainingPct: Subject<number>;

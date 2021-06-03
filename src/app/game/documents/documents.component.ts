@@ -183,31 +183,31 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 const papersImg = {
     passport: {
-        src: '/assets/passport.png',
+        src: './assets/passport.png',
         width: '90px'
     },
     idcard: {
-        src: '/assets/idcard.jpg',
+        src: './assets/idcard.jpg',
         width: '100px'
     },
     permit: {
-        src: '/assets/permit.png',
+        src: './assets/permit.png',
         width: '80px'
     },
     workpass: {
-        src: '/assets/workpass.png',
+        src: './assets/workpass.png',
         width: '110px'
     },
     grant: {
-        src: '/assets/grant.png',
+        src: './assets/grant.png',
         width: '80px'
     },
     certificate: {
-        src: '/assets/certificate.png',
+        src: './assets/certificate.png',
         width: '80px'
     },
     authorization: {
-        src: '/assets/diplomatic.png',
+        src: './assets/diplomatic.png',
         width: '50px'
     }
 };
