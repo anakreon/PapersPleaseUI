@@ -16,11 +16,14 @@ export class UserFormComponent {
 
     constructor(private formBuilder: FormBuilder) {}
 
-    public setUsername(event): void {
-        const user = { name: event.target.value, score: 0 };
-        this.createUser.emit(user);
-    }
     public onSubmit(): void {
-        this.userForm.reset();
+        this.userForm.markAsTouched();
+        if (this.userForm.valid) {
+            const username = this.userForm.value.name;
+            console.log(username);
+            const user = { name: username, score: 0 };
+            this.createUser.emit(user);
+            this.userForm.reset();
+        }
     }
 }

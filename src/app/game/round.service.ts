@@ -1,7 +1,7 @@
 import { Injectable, Input } from '@angular/core';
 import { InputPapers } from 'papersplease';
 import { Observable, Subject } from 'rxjs';
-import { ApprovalService } from './approval.service';
+import { ApprovalService, ApprovalResultWithReply } from './approval.service';
 import { EntrantService } from './entrant.service';
 import { ScoreService } from './score.service';
 import { APPROVAL_RESULT } from './enums';
@@ -17,6 +17,7 @@ export class RoundService {
     private arrivedAtBoothSubject: Subject<void>;
     private finishWalkSubject: Subject<WalkFinish>;
     private approveDecisionSubject: Subject<ApproveDenyDecision>;
+    private inspectorsReply: Subject<string>;
     constructor(
         private entrantService: EntrantService,
         private approvalService: ApprovalService,
@@ -26,13 +27,15 @@ export class RoundService {
         this.arrivedAtBoothSubject = new Subject<void>();
         this.finishWalkSubject = new Subject<WalkFinish>();
         this.approveDecisionSubject = new Subject<ApproveDenyDecision>();
+        this.inspectorsReply = new Subject<string>();
     }
 
     public async startRound(): Promise<void> {
         await this.walkFromQueueToBorder();
         const entrant = this.generateEntrant();
         const approvalDecision = await this.getApprovalOrDenial();
-        let approvalResult: APPROVAL_RESULT;
+        console.log(approvalDecision, 'approvalDecision');
+        let approvalResult: ApprovalResultWithReply;
         if (approvalDecision === 'approve') {
             this.continueWalking();
             approvalResult = this.validateApproval(entrant);
@@ -43,7 +46,8 @@ export class RoundService {
             this.walkDetain();
             approvalResult = this.validateDetainment(entrant);
         }
-        this.updateScore(approvalResult);
+        this.replyToEntrant(approvalResult.reply);
+        this.updateScore(approvalResult.passed);
     }
 
     public getWalkerSubscription(): Observable<void> {
@@ -52,6 +56,10 @@ export class RoundService {
 
     public getWalkFinishSubscription(): Observable<WalkFinish> {
         return this.finishWalkSubject.asObservable();
+    }
+
+    public getInspectorsReply(): Observable<string> {
+        return this.inspectorsReply.asObservable();
     }
 
     public arrivedAtBooth(): void {
@@ -113,15 +121,19 @@ export class RoundService {
         this.finishWalkSubject.next('detain');
     }
 
-    private validateApproval(entrant: InputPapers): APPROVAL_RESULT {
+    private replyToEntrant(reply: string): void {
+        this.inspectorsReply.next(reply);
+    }
+
+    private validateApproval(entrant: InputPapers): ApprovalResultWithReply {
         return this.approvalService.validateApproval(entrant);
     }
 
-    private validateDenial(entrant: InputPapers): APPROVAL_RESULT {
+    private validateDenial(entrant: InputPapers): ApprovalResultWithReply {
         return this.approvalService.validateDenial(entrant);
     }
 
-    private validateDetainment(entrant: InputPapers): APPROVAL_RESULT {
+    private validateDetainment(entrant: InputPapers): ApprovalResultWithReply {
         return this.approvalService.validateDetainment(entrant);
     }
 

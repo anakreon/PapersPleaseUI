@@ -15,6 +15,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('dropzone') dropzone: ElementRef;
     private papersInterpretedSubscription: Subscription;
     private approvalDecisionSubscription: Subscription;
+    private inspectorsReplySubscription: Subscription;
     private dragTarget: string;
     public shouldShowBulletin = true;
     public isEntrantVisible = false;
@@ -23,6 +24,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     private paperDragListeners = {};
     paper = 0;
     private numberOfPapers = 0;
+    public reply: string;
 
     constructor(private entrantService: EntrantService, private roundService: RoundService) {}
 
@@ -36,10 +38,14 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.removePapersFromTable();
             this.isEntrantVisible = false;
         });
+        this.inspectorsReplySubscription = this.roundService.getInspectorsReply().subscribe((reply: string) => {
+            this.replyToEntrant(reply);
+        });
     }
     ngOnDestroy(): void {
         this.papersInterpretedSubscription.unsubscribe();
         this.approvalDecisionSubscription.unsubscribe();
+        this.inspectorsReplySubscription.unsubscribe();
     }
     private resetLocals(): void {
         this.touched = false;
@@ -171,6 +177,14 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public detain(): void {
         this.roundService.makeDetainDecision();
+    }
+
+    private replyToEntrant(reply: string): void {
+        console.log(reply);
+        this.reply = reply;
+        setTimeout(() => {
+            this.reply = null;
+        }, 3000);
     }
 }
 

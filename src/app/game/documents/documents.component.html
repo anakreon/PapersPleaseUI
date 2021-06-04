@@ -1,9 +1,10 @@
 <section class="window">
     <img class="entrant" [hidden]="!isEntrantVisible" src="./assets/immigrant.png" />
+    <p *ngIf="reply">{{reply}}</p>
 </section>
-<section class="buttonwrapper" (click)="detain()">
-    <img class="redbutton" src="./assets/redbutton.png" />
-    <p>Detain</p>
+<section class="buttonwrapper">
+    <img class="redbutton" src="./assets/redbutton.png" (click)="detain()" />
+    <p (click)="detain()">Detain</p>
     <article
         class="bulletin"
         [style.visibility]="shouldShowBulletin ? 'visible' : 'hidden'"

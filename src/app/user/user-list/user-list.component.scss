@@ -1,10 +1,41 @@
+h2 {
+    margin: 15px;
+}
+
+section {
+    display: flex;
+    border: 1px dashed black;
+    width: 500px;
+    margin: 15px;
+    p {
+        margin: 10px;
+        color: red;
+        text-align: center;
+    }
+}
+
 .list-item {
     display: flex;
     align-items: center;
 }
 
+::ng-deep .mat-list-text {
+    display: flex;
+    justify-content: space-between;   
+}
+
+::ng-deep .mat-list-base {
+    width: 100%;
+    padding-top: 0px;
+}
+
 ::ng-deep .mat-list-base .mat-list-item .mat-list-text, ::ng-deep .mat-list-base .mat-list-option .mat-list-text {
     flex-direction: row;
+    width: 100%;
+}
+
+::ng-deep  .mat-list-base .mat-list-item.mat-list-option .mat-list-item-content-reverse .mat-list-text {
+    padding-right: 0;
 }
 
 .icon-button {

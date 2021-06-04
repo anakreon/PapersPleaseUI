@@ -65,6 +65,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     public passportStatus: PassportStatus;
     public papers: Papers;
     public bulletin: string;
+    private zIndex: number;
 
     constructor(
         private roundService: RoundService,
@@ -73,13 +74,12 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
+        this.zIndex = 0;
         this.boothArrivalSubscription = this.roundService.getArrivedAtBooth().subscribe(() => {
             this.resetPassportStatus();
         });
         this.approvalDecisionSubscription = this.roundService.getApprovalDecision().subscribe(() => {
-            this.coordinates = {
-                ['bulletin']: this.coordinates['bulletin']
-            };
+            this.resetLocalPapersState();
         });
         this.papersInterpretedSubscription = this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
             this.papers = papers;
@@ -105,6 +105,18 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.coordinates[identifier];
     }
 
+    private resetLocalPapersState(): void {
+        this.zIndex = 0;
+        if (this.coordinates['bulletin']) {
+            this.coordinates = {
+                ['bulletin']: this.coordinates['bulletin']
+            };
+            this.coordinates['bulletin'].zIndex = 0;
+        } else {
+            this.coordinates = {};
+        }
+    }
+
     private dropHandler(event): void {
         event.preventDefault();
         const { target, channel } = JSON.parse(event.dataTransfer.getData('text/plain'));
@@ -113,12 +125,19 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
                 left: this.coordinates[target].left + event.clientX - this.dragStartCoords.left,
                 top: this.coordinates[target].top + event.clientY - this.dragStartCoords.top
             };
-            this.coordinates[target] = this.getElementPositionWithinBounds(event, target, newPosition);
+            this.updatePositionWithZIndex(event, target, newPosition);
             this.dragStartCoords = null;
         } else if (channel === DRAG_CHANNEL.INSPECT_PAPER) {
             const mousePosition = this.getRelativeMousePosition(event);
-            this.coordinates[target] = this.getElementPositionWithinBounds(event, target, mousePosition);
+            this.updatePositionWithZIndex(event, target, mousePosition);
         }
+    }
+
+    private updatePositionWithZIndex(event, target: string, position: Position): void {
+        this.coordinates[target] = {
+            ...this.getElementPositionWithinBounds(event, target, position),
+            zIndex: this.zIndex++
+        };
     }
 
     private dragoverHandler(event): void {
@@ -129,7 +148,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     private getElementPositionWithinBounds(event, element: string, position: Position): Position {
         const newPosition = {
             left: position.left,
-            top: position.top
+            top: position.top,
         };
         if (position.left + sizes[element].width >= this.boundingRect.width) {
             newPosition.left = this.boundingRect.width - sizes[element].width;
@@ -162,6 +181,10 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public getLeft(paper: string): number {
         return this.coordinates[paper].left;
+    }
+
+    public getZIndex(paper: string): number {
+        return this.coordinates[paper].zIndex;
     }
 
     public onDragStart(event, target): void {
