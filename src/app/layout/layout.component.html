@@ -2,6 +2,7 @@
     <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="'navigation'" [mode]="'over'" [opened]="'false'">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
+            <a mat-list-item href="#/dashboard">Dashboard</a>
             <a mat-list-item (click)="showHowToPlayDialog()">How to Play</a>
             <a mat-list-item href="#" (click)="logout()">Logout</a>
         </mat-nav-list>

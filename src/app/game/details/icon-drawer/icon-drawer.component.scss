@@ -1,14 +1,14 @@
 .icon-drawer {
     position: absolute;
     right: -440px;
-    top: -75px;
+    top: -140px;
     display: flex;
     &.open {
         right: -75px;
     }
     .drawer {
         position: absolute;
-        bottom: 70px;
+        bottom: 0px;
         left: -90px;
         width: 420px;
         height: 160px;
@@ -19,7 +19,7 @@
     .drawer-bar {
         cursor: pointer;
         position: absolute;
-        bottom: 70px;
+        bottom: 0px;
         left: -90px;
         height: 160px;
         width: 50px;
@@ -42,7 +42,7 @@
         position: relative;
         width: 300px;
         height: 300px;
-        top: 0px;
+        bottom: -75px;
         &:not(:first-of-type) {
             margin-left: -100px;
         }
@@ -50,17 +50,17 @@
             color: burlywood
         }
         &.stamping {
-            top: 50px;
+            bottom: -125px;
         }
         &.approve {
             transform: scale(60%) translateX(-50px);
         }
         // for most common CSS rules, vendor prefixes are not really necessary anymore
-        -webkit-transition: top 0.5s;
-        -moz-transition: top 0.5s;
-        -ms-transition: top 0.5s;
-        -o-transition: top 0.5s;
-        transition: top 0.5s;
+        -webkit-transition: bottom 0.5s;
+        -moz-transition: bottom 0.5s;
+        -ms-transition: bottom 0.5s;
+        -o-transition: bottom 0.5s;
+        transition: bottom 0.5s;
     }
 
     .icon-label {

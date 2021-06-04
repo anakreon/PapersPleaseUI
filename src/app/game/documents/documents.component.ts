@@ -15,7 +15,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('dropzone') dropzone: ElementRef;
     private papersInterpretedSubscription: Subscription;
     private approvalDecisionSubscription: Subscription;
-
+    private dragTarget: string;
     public shouldShowBulletin = true;
     public isEntrantVisible = false;
     public touched = false;
@@ -24,10 +24,7 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     paper = 0;
     private numberOfPapers = 0;
 
-    constructor(
-        private entrantService: EntrantService,
-        private roundService: RoundService
-    ) {}
+    constructor(private entrantService: EntrantService, private roundService: RoundService) {}
 
     ngOnInit(): void {
         this.papersInterpretedSubscription = this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
@@ -86,28 +83,22 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private dropHandler(event): void {
         event.preventDefault();
-        const { target, channel, passportStatus } = JSON.parse(event.dataTransfer.getData('text/plain'));
-        if (channel === DRAG_CHANNEL.MOVE_PAPER) {
-            if (target === 'bulletin') {
-                this.shouldShowBulletin = true;
-            } else {
-                const paper = {
-                    id: target,
-                    ...papersImg[target]
-                };
-                this.pushToTheMiddle(paper);
-                this.maybeEndInteraction(passportStatus);
-            }
+        const { target, passportStatus } = JSON.parse(event.dataTransfer.getData('text/plain'));
+        if (target === 'bulletin') {
+            this.shouldShowBulletin = true;
+        } else {
+            const paper = {
+                id: target,
+                ...papersImg[target]
+            };
+            this.pushToTheMiddle(paper);
+            this.maybeEndInteraction(passportStatus);
         }
     }
 
     private dragoverHandler(event): void {
-        const data = event.dataTransfer.getData('text/plain');
-        const { channel } = JSON.parse(data);
-        if (channel === DRAG_CHANNEL.MOVE_PAPER) {
-            event.preventDefault();
-            event.dataTransfer.dropEffect = 'link';
-        }
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'link';
     }
 
     private putPaperOnTable(paper: string): void {
@@ -144,18 +135,20 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
             'text/plain',
             JSON.stringify({ channel: DRAG_CHANNEL.INSPECT_PAPER, target: event.target.id })
         );
+        event.dataTransfer.effectAllowed = 'move';
+        this.dragTarget = event.target.id;
     }
 
     private documentDragendHandler(event): void {
-        const { channel, target } = JSON.parse(event.dataTransfer.getData('text/plain'));
-        if (channel === DRAG_CHANNEL.INSPECT_PAPER && event.dataTransfer.dropEffect !== 'none') {
-            if (target === 'bulletin') {
+        if (event.dataTransfer.dropEffect === 'move') {
+            if (this.dragTarget === 'bulletin') {
                 this.shouldShowBulletin = false;
             } else {
-                this.removePaperByKey(target);
-                this.paperDragListeners[target] = false;
+                this.removePaperByKey(this.dragTarget);
+                this.paperDragListeners[this.dragTarget] = false;
             }
         }
+        this.dragTarget = null;
     }
 
     private maybeEndInteraction(passportStatus: PassportStatus): void {

@@ -5,7 +5,6 @@ import { BulletinService } from '../../bulletin.service';
 import { EntrantService } from '../../entrant.service';
 import { DRAG_CHANNEL } from '../../enums';
 import { RoundService } from '../../round.service';
-import { IconDrawerComponent } from '../icon-drawer/icon-drawer.component';
 import { PassportStatus } from '../passport/passport.component';
 
 interface Position {
@@ -62,6 +61,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     public coordinates = {};
     private boundingRect: DOMRect;
     private dragStartCoords: Position;
+    private dragTarget: string;
     public passportStatus: PassportStatus;
     public papers: Papers;
     public bulletin: string;
@@ -73,12 +73,13 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        console.log('initing');
         this.boothArrivalSubscription = this.roundService.getArrivedAtBooth().subscribe(() => {
             this.resetPassportStatus();
         });
         this.approvalDecisionSubscription = this.roundService.getApprovalDecision().subscribe(() => {
-            this.coordinates = {};
+            this.coordinates = {
+                ['bulletin']: this.coordinates['bulletin']
+            };
         });
         this.papersInterpretedSubscription = this.entrantService.getInterpretedPapers().subscribe((papers: Papers) => {
             this.papers = papers;
@@ -113,7 +114,6 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
                 top: this.coordinates[target].top + event.clientY - this.dragStartCoords.top
             };
             this.coordinates[target] = this.getElementPositionWithinBounds(event, target, newPosition);
-            console.log(this.coordinates[target]);
             this.dragStartCoords = null;
         } else if (channel === DRAG_CHANNEL.INSPECT_PAPER) {
             const mousePosition = this.getRelativeMousePosition(event);
@@ -123,7 +123,7 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private dragoverHandler(event): void {
         event.preventDefault();
-        event.dataTransfer.dropEffect = 'move';
+        event.dataTransfer.dropEffect = 'linkMove';
     }
 
     private getElementPositionWithinBounds(event, element: string, position: Position): Position {
@@ -174,12 +174,13 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
             left: event.clientX,
             top: event.clientY
         };
+        this.dragTarget = target;
     }
     public onDragEnd(event): void {
-        const { target } = JSON.parse(event.dataTransfer.getData('text/plain'));
-        if (event.dataTransfer.dropEffect === 'link') {
-            this.coordinates[target] = null;
+        if (event.dataTransfer.dropEffect === 'link' && this.dragTarget !== null) {
+            this.coordinates[this.dragTarget] = null;
         }
+        this.dragTarget = null;
     }
 
     public getPassportStatus(): PassportStatus {
@@ -202,8 +203,6 @@ export class DetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     private isPassportAligned(rightRange, topRange): boolean {
         const rightBorder = this.dropzone.nativeElement.clientWidth;
-        console.log('left', this.coordinates['passport'].left, (rightBorder - rightRange[0]), (rightBorder - rightRange[1]));
-        console.log('top', this.coordinates['passport'].top, topRange[0], topRange[1]);
         return (
             this.coordinates['passport'] &&
             this.coordinates['passport'].left > (rightBorder - rightRange[0]) &&
