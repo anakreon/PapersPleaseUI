@@ -17,8 +17,8 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
     @ViewChild('refPerson') refPerson: ElementRef;
 
     private walkerSubscription: Subscription;
-    private spinnerSubscription: Subscription;
-    public spinnerValue = 0;
+    private clockSubscription: Subscription;
+    public clockPercentage = 0;
     private moveSpeed = 9;
     private dividerPosition = 1;
     private people: ElementRef[];
@@ -34,14 +34,14 @@ export class QueueComponent implements AfterViewChecked, AfterViewInit, OnInit, 
         this.walkerSubscription = this.roundService.getWalkerSubscription().subscribe(() => {
             this.requestAnotherPerson();
         });
-        this.spinnerSubscription = this.dayService.getTimerRemainingPctObservable().subscribe((remainingPct: number) => {
-            this.spinnerValue = 100 - remainingPct;
+        this.clockSubscription = this.dayService.getTimerRemainingPctObservable().subscribe((remainingPct: number) => {
+            this.clockPercentage = 100 - remainingPct;
         });
     }
 
     ngOnDestroy(): void {
         this.walkerSubscription.unsubscribe();
-        this.spinnerSubscription.unsubscribe();
+        this.clockSubscription.unsubscribe();
     }
 
     public ngAfterViewInit(): void {

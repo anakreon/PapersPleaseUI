@@ -128,13 +128,18 @@
     .right .date {
         font-size:20px
     }
-    .spinner {
-        transform: scale(0.5) translateY(-45px);
+    .clock {
+        margin-top: 0px;
+        transform: scale(1);
     }
 }
 
 @media screen and (min-width: 1001px) {
     .right .date {
         font-size:25px
+    }
+    .clock {
+        margin-top: 25px;
+        transform: scale(1.2);
     }
 }

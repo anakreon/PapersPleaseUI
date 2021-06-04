@@ -27,7 +27,7 @@
         background-color: #371d10;
         &::before {
             height: 100%;
-            transform: scaleX(50%);
+            transform: scaleX(0.5);
             color: lightyellow;
             font-size: 40px;
             height: 100%;
@@ -39,7 +39,7 @@
 
     .stamp-icon {
         cursor: pointer;
-        transform: scale(60%);
+        transform: scale(0.6);
         position: relative;
         width: 300px;
         height: 300px;
@@ -54,7 +54,7 @@
             bottom: -125px;
         }
         &.approve {
-            transform: scale(60%) translateX(-50px);
+            transform: scale(0.6) translateX(-50px);
         }
         // for most common CSS rules, vendor prefixes are not really necessary anymore
         -webkit-transition: bottom 0.5s;

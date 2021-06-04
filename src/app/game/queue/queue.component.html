@@ -29,11 +29,6 @@
     </section>
     <section class="right">
         <p class="date">November 22, 1982</p>
-        <mat-progress-spinner
-            class="spinner"
-            color="primary"
-            mode="determinate"
-            [value]="spinnerValue">
-        </mat-progress-spinner>
+        <app-clock class="clock" [percentage]="clockPercentage"></app-clock>
     </section>
 </section>
