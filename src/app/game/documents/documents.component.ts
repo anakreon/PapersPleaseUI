@@ -49,7 +49,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     private resetLocals(): void {
         this.touched = false;
-        this.paperDragListeners = {};
         this.entrantPapers = [];
     }
 
@@ -180,7 +179,6 @@ export class DocumentsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private replyToEntrant(reply: string): void {
-        console.log(reply);
         this.reply = reply;
         setTimeout(() => {
             this.reply = null;

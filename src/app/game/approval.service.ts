@@ -48,21 +48,17 @@ export class ApprovalService {
 
     public validateDenial(entrant: InputPapers): ApprovalResultWithReply {
         const validationResult = this.inspector.inspect(entrant);
-        console.log('validationResult', validationResult);
         if (this.shouldHaveBeenDenied(validationResult)) {
-            console.log('shouldHaveBeenDenied');
             return {
                 passed: APPROVAL_RESULT.PASSED,
                 reply: validationResult
             };
         } else if (this.shouldHaveBeenApproved(validationResult)) {
-            console.log('shouldHaveBeenApproved');
             return {
                 passed: APPROVAL_RESULT.FAILED,
                 reply: this.getOneOf(this.denialReplies)
             };
         } else if (this.shouldHaveBeenDetained(validationResult)) {
-            console.log('shouldHaveBeenDetained');
             return {
                 passed: APPROVAL_RESULT.FAILED,
                 reply: this.getOneOf(this.denialReplies)
@@ -105,7 +101,6 @@ export class ApprovalService {
     }
     private getOneOf(anArray: string[]): string {
         const randomIndex = Math.floor(Math.random() * anArray.length);
-        console.log(randomIndex);
         return anArray[randomIndex];
     }
 }

@@ -87,12 +87,16 @@ img.paper {
         width: 60px;
         bottom: 0px;
         opacity: 0.7;
+        &:hover {
+            opacity: 1;
+        }
     }
-    >p {
+    > p {
         cursor: pointer;
         position: absolute;
         bottom: 20px;
         left: 8px;
+        pointer-events: none;
     }
     .bulletin {
         cursor: pointer;

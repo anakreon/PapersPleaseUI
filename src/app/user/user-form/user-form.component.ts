@@ -20,7 +20,6 @@ export class UserFormComponent {
         this.userForm.markAsTouched();
         if (this.userForm.valid) {
             const username = this.userForm.value.name;
-            console.log(username);
             const user = { name: username, score: 0 };
             this.createUser.emit(user);
             this.userForm.reset();

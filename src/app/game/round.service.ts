@@ -34,7 +34,6 @@ export class RoundService {
         await this.walkFromQueueToBorder();
         const entrant = this.generateEntrant();
         const approvalDecision = await this.getApprovalOrDenial();
-        console.log(approvalDecision, 'approvalDecision');
         let approvalResult: ApprovalResultWithReply;
         if (approvalDecision === 'approve') {
             this.continueWalking();
